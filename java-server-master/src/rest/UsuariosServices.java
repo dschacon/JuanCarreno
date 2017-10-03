@@ -5,13 +5,18 @@ package rest;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import tm.RotondAndesTm;
 import vos.Usuario;
 
@@ -31,25 +36,6 @@ public class UsuariosServices {
 	}
 	
 
-	/**
-	 * Metodo que expone servicio REST usando GET que da todos los usuarios de la base de datos.
-	 * <b>URL: </b> http://"ip o nombre de host":8080/RotonAndes/rest/usuarios
-	 * @return Json con todos los usuarios de la base de datos o json con 
-     * el error que se produjo
-	 */
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getVideos() {
-		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Usuario> usuarios;
-		try {
-			usuarios = tm.darUsuarios();
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
-		}
-		return Response.status(200).entity(usuarios).build();
-	}
-
 	 /**
      * Metodo que expone servicio REST usando GET que busca el video con el id que entra como parametro
      * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/<<id>>" para la busqueda"
@@ -60,12 +46,12 @@ public class UsuariosServices {
 	@GET
 	@Path( "{id: \\d+}" )
 	@Produces( { MediaType.APPLICATION_JSON } )
-	public Response getVideo( @PathParam( "id" ) Long id )
+	public Response getVideo( @PathParam( "id" ) Integer id )
 	{
 		RotondAndesTm tm = new RotondAndesTm( getPath( ) );
 		try
 		{
-			Video v = tm.buscarVideoPorId( id );
+			Usuario v = tm.buscarUsuarioPorId( id );
 			return Response.status( 200 ).entity( v ).build( );			
 		}
 		catch( Exception e )
@@ -84,17 +70,17 @@ public class UsuariosServices {
 	@GET
 	@Path( "{nombre}" )
 	@Produces( { MediaType.APPLICATION_JSON } )
-	public Response getVideoName( @QueryParam("nombre") String name) {
-		VideoAndesTM tm = new VideoAndesTM(getPath());
-		List<Video> videos;
+	public Response getUsuarioname( @PathParam("nombre") String name) {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
+		List<Usuario> usuarios;
 		try {
 			if (name == null || name.length() == 0)
 				throw new Exception("Nombre del video no valido");
-			videos = tm.buscarVideosPorName(name);
+			usuarios = tm.buscarUsuariosporName(name);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(videos).build();
+		return Response.status(200).entity(usuarios).build();
 	}
 
 
@@ -107,72 +93,14 @@ public class UsuariosServices {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addVideo(Video video) {
-		VideoAndesTM tm = new VideoAndesTM(getPath());
+	public Response addVideo(Usuario usuario) {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
-			tm.addVideo(video);
+			tm.addUsuario(usuario);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(video).build();
+		return Response.status(200).entity(usuario).build();
 	}
 	
-    /**
-     * Metodo que expone servicio REST usando POST que agrega los videos que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/varios
-     * @param videos - videos a agregar. 
-     * @return Json con el video que agrego o Json con el error que se produjo
-     */
-	@POST
-	@Path("/varios")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addVideo(List<Video> videos) {
-		VideoAndesTM tm = new VideoAndesTM(getPath());
-		try {
-			tm.addVideos(videos);
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
-		}
-		return Response.status(200).entity(videos).build();
-	}
-	
-    /**
-     * Metodo que expone servicio REST usando PUT que actualiza el video que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos
-     * @param video - video a actualizar. 
-     * @return Json con el video que actualizo o Json con el error que se produjo
-     */
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateVideo(Video video) {
-		VideoAndesTM tm = new VideoAndesTM(getPath());
-		try {
-			tm.updateVideo(video);
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
-		}
-		return Response.status(200).entity(video).build();
-	}
-	
-    /**
-     * Metodo que expone servicio REST usando DELETE que elimina el video que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos
-     * @param video - video a aliminar. 
-     * @return Json con el video que elimino o Json con el error que se produjo
-     */
-	@DELETE
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteVideo(Video video) {
-		VideoAndesTM tm = new VideoAndesTM(getPath());
-		try {
-			tm.deleteVideo(video);
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
-		}
-		return Response.status(200).entity(video).build();
-	}
-
 }

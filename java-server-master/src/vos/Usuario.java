@@ -25,6 +25,7 @@ public class Usuario
 		this.id = numero;
 		this.nombre = nombre;
 		this.rol = rol ;
+		this.email = email;
 	}
 	
 	

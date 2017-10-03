@@ -1,5 +1,9 @@
 package vos;
 
+import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class Usuario 
 {
 	
@@ -7,10 +11,35 @@ public class Usuario
 	
 	private int id;
 	
-	private int rol;
+	private String rol;
 	
 	private String email;
+
+	private List<Restaurante> preferenciaRestaurante ;
 	
+	public Usuario(@JsonProperty(value="NUMERO_ID")Integer numero, 
+					@JsonProperty(value="NOMBRE")String nombre,
+					@JsonProperty(value="ROL") String rol, 
+					@JsonProperty(value="EMAIL")String email ) 
+	{
+		this.id = numero;
+		this.nombre = nombre;
+		this.rol = rol ;
+	}
+	
+	
+	public Usuario(@JsonProperty(value="NUMERO_ID")Integer numero, 
+			@JsonProperty(value="NOMBRE")String nombre,
+			@JsonProperty(value="ROL") String rol, 
+			@JsonProperty(value="EMAIL")String email,
+			@JsonProperty(value="EMAIL")List<Restaurante> preferenciaRestaurante ) 
+		{
+		this.id = numero;
+		this.nombre = nombre;
+		this.rol = rol ;
+		this.preferenciaRestaurante=preferenciaRestaurante;
+		}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -27,11 +56,11 @@ public class Usuario
 		this.id = id;
 	}
 
-	public int getRol() {
+	public String getRol() {
 		return rol;
 	}
 
-	public void setRol(int rol) {
+	public void setRol(String rol) {
 		this.rol = rol;
 	}
 

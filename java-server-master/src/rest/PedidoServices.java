@@ -22,6 +22,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
 import vos.Pedido;
+import vos.Video;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/RotondAndes/rest/pedidos/...
@@ -51,47 +52,28 @@ public class PedidoServices {
 	
 
 	/**
-	 * Metodo que expone servicio REST usando GET que da todos los pedidos de la base de datos.
-	 * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/pedidos
-	 * @return Json con todos los pedidos de la base de datos o json con 
-     * el error que se produjo
-	 */
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getPedidos() {
-		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Pedido> pedidos;
-		try {
-			pedidos = tm.darPedidos();
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
-		}
-		return Response.status(200).entity(pedidos).build();
-	}
-
-    /**
-     * Metodo que expone servicio REST usando GET que busca el pedido con el nombre que entra como parametro
-     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/pedidos/nombre/nombre?nombre=<<nombre>>" para la busqueda"
+     * Metodo que expone servicio REST usando GET que busca el pedido con el id que entra como parametro
+     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/pedidos/<<id>>" para la busqueda"
      * @param name - Nombre del pedido a buscar que entra en la URL como parametro 
      * @return Json con el/los pedidos encontrados con el nombre que entra como parametro o json con 
      * el error que se produjo
      */
 	@GET
-	@Path( "{nombre}" )
+	@Path( "{id: \\d+}" )
 	@Produces( { MediaType.APPLICATION_JSON } )
-	public Response getPedidoName( @PathParam("nombre") String name) {
-		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Pedido> pedidos;
-		try {
-			if (name == null || name.length() == 0)
-				throw new Exception("Nombre del pedido no valido");
-			pedidos = tm.buscarPedidosPorName(name);
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
+	public Response getPedido( @PathParam( "id" ) int id )
+	{
+		RotondAndesTm tm = new RotondAndesTm( getPath( ) );
+		try
+		{
+			Pedido p = tm.buscarPedidoPorId( id );
+			return Response.status( 200 ).entity( p ).build( );			
 		}
-		return Response.status(200).entity(pedidos).build();
+		catch( Exception e )
+		{
+			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+		}
 	}
-
 
     /**
      * Metodo que expone servicio REST usando POST que agrega el pedido que recibe en Json

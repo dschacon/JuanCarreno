@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
-import vos.Pedido;
+import vos.Restaurante;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes/...
@@ -51,22 +51,22 @@ public class RestauranteServices {
 	
 
 	/**
-	 * Metodo que expone servicio REST usando GET que da todos los pedidos de la base de datos.
-	 * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/pedidos
-	 * @return Json con todos los pedidos de la base de datos o json con 
+	 * Metodo que expone servicio REST usando GET que da todos los restaurantes de la base de datos.
+	 * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes
+	 * @return Json con todos los restaurantes de la base de datos o json con 
      * el error que se produjo
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getPedidos() {
+	public Response getRestaurantes() {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Pedido> pedidos;
+		List<Restaurante> restaurantes;
 		try {
-			pedidos = tm.darPedidos();
+			restaurantes = tm.darRestaurantes();
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(pedidos).build();
+		return Response.status(200).entity(restaurantes).build();
 	}
 
     /**

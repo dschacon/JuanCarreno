@@ -8,7 +8,7 @@ public class Pedido
 {
 	@JsonProperty(value="id")
 	private int id;
-	@JsonProperty(value="costoTotal")
+	@JsonProperty(value="costo")
 	private float costoTotal;
 	@JsonProperty(value="fecha")
 	private Date fecha;

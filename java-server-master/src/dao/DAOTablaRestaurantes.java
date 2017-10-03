@@ -60,7 +60,7 @@ public class DAOTablaRestaurantes {
 
 	/**
 	 * Metodo que, usando la conexión a la base de datos, saca todos los restaurantes de la base de datos
-	 * <b>SQL Statement:</b> SELECT * FROM ZONA;
+	 * <b>SQL Statement:</b> SELECT * FROM RESTAURANTE;
 	 * @return Arraylist con los restaurantes de la base de datos.
 	 * @throws SQLException - Cualquier error que la base de datos arroje.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
@@ -93,7 +93,7 @@ public class DAOTablaRestaurantes {
 	 * @throws SQLException - Cualquier error que la base de datos arroje.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public ArrayList<Restaurante> buscarRestaurantesPorName(String name) throws SQLException, Exception {
+	public ArrayList<Restaurante> buscarRestaurantesPorNombre(String name) throws SQLException, Exception {
 		ArrayList<Restaurante> restaurantes = new ArrayList<Restaurante>();
 
 		String sql = "SELECT * FROM RESTAURANTE WHERE NOMBRE ='" + name + "'";

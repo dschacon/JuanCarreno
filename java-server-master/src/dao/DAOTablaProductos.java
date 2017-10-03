@@ -92,8 +92,8 @@ public class DAOTablaProductos {
 	 * @throws SQLException - Cualquier error que la base de datos arroje.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public ArrayList<Producto> buscarProductosPorNombre(String name) throws SQLException, Exception {
-		ArrayList<Producto> productos = new ArrayList<Producto>();
+	public Producto buscarProductosPorNombre(String name) throws SQLException, Exception {
+		Producto productos=null ;
 
 		String sql = "SELECT * FROM PRODUCTO WHERE NOMBRE ='" + name + "'";
 
@@ -106,7 +106,7 @@ public class DAOTablaProductos {
 			String descripcion = rs.getString("DESCRIPCION");
 			String traduccion = rs.getString("TRADUCCION");
 			int categoria = rs.getInt("CATEGORIA");		
-			productos.add(new Producto(nombre, descripcion, traduccion, categoria));
+			productos =new Producto(nombre, descripcion, traduccion, categoria);
 		}
 
 		return productos;

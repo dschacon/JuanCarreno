@@ -123,8 +123,8 @@ public class DAOTablaMenus {
 	public void addMenu(Menu menu) throws SQLException, Exception {
 
 		String sql = "INSERT INTO MENU VALUES ('";
-		sql += menu.getNombre() + "','";
-		sql += menu.getRestaurante() + "',";
+		sql += menu.getRestaurante() + "','";
+		sql += menu.getNombre() + "',";
 		sql += menu.getCostoProduccion() + ",";
 		sql += menu.getPrecioVenta() +")";
 

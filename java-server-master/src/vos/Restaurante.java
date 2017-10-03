@@ -4,15 +4,15 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Restaurante 
 {
-	@JsonProperty(value="NOMBRE")
+	@JsonProperty(value="nombre")
 	private String nombre;
-	@JsonProperty(value="TIPO_COMIDA")
+	@JsonProperty(value="tipoComida")
 	private String tipoComida;
-	@JsonProperty(value="PAGINAWEB")
+	@JsonProperty(value="paginaWeb")
 	private String paginaWeb;
-	@JsonProperty(value="REPRESENTANTE")
+	@JsonProperty(value="representante")
 	private String representante;
-	@JsonProperty(value="NOMBREZONA")
+	@JsonProperty(value="nombreZona")
 	private String nombreZona;
 	
 	public Restaurante(@JsonProperty(value="NOMBRE")String nombre, @JsonProperty(value="TIPO_COMIDA")String tipoComida,

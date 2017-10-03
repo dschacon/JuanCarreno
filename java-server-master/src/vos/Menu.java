@@ -1,19 +1,33 @@
 package vos;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class Menu 
 {
-	private int id;
-	
+	@JsonProperty(value="nombre")
+	private String nombre;
+	@JsonProperty(value="costoProduccion")
 	private int costoProduccion;
-	
+	@JsonProperty(value="precioVenta")
 	private int precioVenta;
+	@JsonProperty(value="restaurante")
+	private String restaurante;
 
-	public int getId() {
-		return id;
+	public Menu(@JsonProperty(value="NOMBRE")String nombre, @JsonProperty(value="RESTAURANTE")String restaurante,
+			@JsonProperty(value="COSTO_PRODUCCION")int costoProduccion, @JsonProperty(value="PRECIO_VENTA")int precioVenta)
+	{
+		this.nombre = nombre;
+		this.restaurante = restaurante;
+		this.costoProduccion = costoProduccion;
+		this.precioVenta = precioVenta;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public int getCostoProduccion() {
@@ -30,5 +44,13 @@ public class Menu
 
 	public void setPrecioVenta(int precioVenta) {
 		this.precioVenta = precioVenta;
+	}
+
+	public String getRestaurante() {
+		return restaurante;
+	}
+
+	public void setRestaurante(String restaurante) {
+		this.restaurante = restaurante;
 	}
 }

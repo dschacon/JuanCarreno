@@ -3,9 +3,8 @@ package tm;
 import java.util.List;
 import java.util.Properties;
 
-import dao.DAOTablaUsuarios;
-import dao.DAOTablaVideos;
-import vos.Usuario;
+import dao.*;
+import vos.*;
 
 import java.io.File;
 import java.io.FileInputStream;

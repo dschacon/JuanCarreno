@@ -6,15 +6,15 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Usuario 
 {
-	
+	@JsonProperty(value="NOMBRE")
 	private String nombre;
-	
+	@JsonProperty(value="NUMERO_ID")
 	private int id;
-	
+	@JsonProperty(value="ROL")
 	private String rol;
-	
+	@JsonProperty(value="EMAIL")
 	private String email;
-
+	@JsonProperty(value="RESTAURANTES")
 	private List<Restaurante> preferenciaRestaurante ;
 	
 	public Usuario(@JsonProperty(value="NUMERO_ID")Integer numero, 
@@ -29,17 +29,17 @@ public class Usuario
 	}
 	
 	
-	public Usuario(@JsonProperty(value="NUMERO_ID")Integer numero, 
-			@JsonProperty(value="NOMBRE")String nombre,
-			@JsonProperty(value="ROL") String rol, 
-			@JsonProperty(value="EMAIL")String email,
-			@JsonProperty(value="EMAIL")List<Restaurante> preferenciaRestaurante ) 
-		{
-		this.id = numero;
-		this.nombre = nombre;
-		this.rol = rol ;
-		this.preferenciaRestaurante=preferenciaRestaurante;
-		}
+//	public Usuario(@JsonProperty(value="NUMERO_ID")Integer numero, 
+//			@JsonProperty(value="NOMBRE")String nombre,
+//			@JsonProperty(value="ROL") String rol, 
+//			@JsonProperty(value="EMAIL")String email,
+//			@JsonProperty(value="RESTAURANTES")List<Restaurante> preferenciaRestaurante ) 
+//		{
+//		this.id = numero;
+//		this.nombre = nombre;
+//		this.rol = rol ;
+//		this.preferenciaRestaurante=preferenciaRestaurante;
+//		}
 
 	public String getNombre() {
 		return nombre;

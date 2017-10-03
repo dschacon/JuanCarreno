@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response;
 import tm.RotondAndesTm;
 import vos.Usuario;
 
-@Path("usuarios")
+@Path("usuario")
 public class UsuariosServices {
 	
 	@Context
@@ -93,7 +93,7 @@ public class UsuariosServices {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addVideo(Usuario usuario) {
+	public Response addUsuario(Usuario usuario) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
 			tm.addUsuario(usuario);

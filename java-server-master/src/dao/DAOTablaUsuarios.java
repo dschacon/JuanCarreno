@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.print.DocFlavor.STRING;
 
+import vos.Restaurante;
 import vos.Usuario;
 
 public class DAOTablaUsuarios {
@@ -158,45 +159,6 @@ public class DAOTablaUsuarios {
 
 		}
 		
-		/**
-		 * Metodo que actualiza el video que entra como parametro en la base de datos.
-		 * @param usuario - el video a actualizar. video !=  null
-		 * <b> post: </b> se ha actualizado el video en la base de datos en la transaction actual. pendiente que el video master
-		 * haga commit para que los cambios bajen a la base de datos.
-		 * @throws SQLException - Cualquier error que la base de datos arroje. No pudo actualizar el video.
-		 * @throws Exception - Cualquier error que no corresponda a la base de datos
-		 */
-		public void updateVideo(Usuario usuario) throws SQLException, Exception {
-
-			String sql = "UPDATE USUARIO SET ";
-			sql += "NOMBRE='" + usuario.getNombre() + "',";
-			sql += "ROL='" + usuario.getRol()+"',";
-			sql += "EMAIL='" + usuario.getRol()+"'";
-			sql += " WHERE ID = " + usuario.getId();
-
-
-			PreparedStatement prepStmt = conn.prepareStatement(sql);
-			recursos.add(prepStmt);
-			prepStmt.executeQuery();
-		}
-
-		/**
-		 * Metodo que elimina el video que entra como parametro en la base de datos.
-		 * @param usuario - el video a borrar. video !=  null
-		 * <b> post: </b> se ha borrado el video en la base de datos en la transaction actual. pendiente que el video master
-		 * haga commit para que los cambios bajen a la base de datos.
-		 * @throws SQLException - Cualquier error que la base de datos arroje. No pudo actualizar el video.
-		 * @throws Exception - Cualquier error que no corresponda a la base de datos
-		 */
-		public void deleteVideo(Usuario usuario) throws SQLException, Exception {
-
-			String sql = "DELETE FROM USUARIO";
-			sql += " WHERE ID = " + usuario.getId();
-			
-			PreparedStatement prepStmt = conn.prepareStatement(sql);
-			recursos.add(prepStmt);
-			prepStmt.executeQuery();
-		}
-
+		
 
 }

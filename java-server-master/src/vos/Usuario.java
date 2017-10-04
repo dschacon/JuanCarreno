@@ -9,7 +9,7 @@ public class Usuario
 	@JsonProperty(value="NOMBRE")
 	private String nombre;
 	@JsonProperty(value="NUMERO_ID")
-	private int id;
+	private String id;
 	@JsonProperty(value="ROL")
 	private String rol;
 	@JsonProperty(value="EMAIL")
@@ -17,7 +17,7 @@ public class Usuario
 	@JsonProperty(value="RESTAURANTES")
 	private List<Restaurante> preferenciaRestaurante ;
 	
-	public Usuario(@JsonProperty(value="NUMERO_ID")Integer numero, 
+	public Usuario(@JsonProperty(value="NUMERO_ID")String numero, 
 					@JsonProperty(value="NOMBRE")String nombre,
 					@JsonProperty(value="ROL") String rol, 
 					@JsonProperty(value="EMAIL")String email ) 
@@ -49,11 +49,11 @@ public class Usuario
 		this.nombre = nombre;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

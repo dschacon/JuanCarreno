@@ -72,7 +72,7 @@ public class DAOTablaUsuarios {
 			ResultSet rs = prepStmt.executeQuery();
 
 			while (rs.next()) {
-				Integer numero = rs.getInt("NUMERO_ID");
+				String numero = rs.getString("NUMERO_ID");
 				String nombre = rs.getString("NOMBRE");
 				String rol = rs.getString("ROL");
 				String email = rs.getString("EMAIL");
@@ -100,7 +100,7 @@ public class DAOTablaUsuarios {
 
 			while (rs.next()) {
 				String name2 = rs.getString("NOMBRE");
-				Integer id = rs.getInt("NUMERO_ID");
+				String id = rs.getString("NUMERO_ID");
 				String rol = rs.getString("ROL");
 				String email = rs.getString("EMAIL");
 				usuarios.add(new Usuario(id, name2, rol, email));
@@ -127,7 +127,7 @@ public class DAOTablaUsuarios {
 			ResultSet rs = prepStmt.executeQuery();
 
 			if(rs.next()) {
-				Integer id2 = rs.getInt("NUMERO_ID");
+				String id2 = rs.getString("NUMERO_ID");
 				String name2 = rs.getString("NOMBRE");
 				String rol = rs.getString("ROL");
 				String email = rs.getString("EMAIL");

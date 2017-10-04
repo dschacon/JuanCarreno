@@ -21,14 +21,14 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
-import vos.Restaurante;
+import vos.Ingrediente;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes/...
  * @author Juan Carreño
  */
 @Path("restaurantes")
-public class RestauranteServices {
+public class IngredienteServices {
 
 	/**
 	 * Atributo que usa la anotacion @Context para tener el ServletContext de la conexion actual.
@@ -51,103 +51,103 @@ public class RestauranteServices {
 	
 
 	/**
-	 * Metodo que expone servicio REST usando GET que da todos los restaurantes de la base de datos.
-	 * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes
-	 * @return Json con todos los restaurantes de la base de datos o json con 
+	 * Metodo que expone servicio REST usando GET que da todos los ingredientes de la base de datos.
+	 * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/ingredientes
+	 * @return Json con todos los ingredientes de la base de datos o json con 
      * el error que se produjo
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getRestaurantes() {
+	public Response getIngredientes() {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Restaurante> restaurantes;
+		List<Ingrediente> ingredientes;
 		try {
-			restaurantes = tm.darRestaurantes();
+			ingredientes = tm.darIngredientes();
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(restaurantes).build();
+		return Response.status(200).entity(ingredientes).build();
 	}
 
     /**
-     * Metodo que expone servicio REST usando GET que busca el restaurante con el nombre que entra como parametro
-     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes/nombre/nombre?nombre=<<nombre>>" para la busqueda"
-     * @param name - Nombre del restaurante a buscar que entra en la URL como parametro 
-     * @return Json con el/los restaurantes encontrados con el nombre que entra como parametro o json con 
+     * Metodo que expone servicio REST usando GET que busca el ingrediente con el nombre que entra como parametro
+     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/ingredientes/nombre/nombre?nombre=<<nombre>>" para la busqueda"
+     * @param name - Nombre del ingrediente a buscar que entra en la URL como parametro 
+     * @return Json con el/los ingredientes encontrados con el nombre que entra como parametro o json con 
      * el error que se produjo
      */
 	@GET
 	@Path( "{nombre}" )
 	@Produces( { MediaType.APPLICATION_JSON } )
-	public Response getRestauranteName( @PathParam("nombre") String name) {
+	public Response getIngredienteName( @PathParam("nombre") String name) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Restaurante> restaurantes;
+		List<Ingrediente> ingredientes;
 		try {
 			if (name == null || name.length() == 0)
 				throw new Exception("Nombre del restaurante no valido");
-			restaurantes = tm.buscarRestaurantesPorName(name);
+			ingredientes = tm.buscarIngredientesPorName(name);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(restaurantes).build();
+		return Response.status(200).entity(ingredientes).build();
 	}
 
 
     /**
-     * Metodo que expone servicio REST usando POST que agrega el restaurante que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes/restaurante
-     * @param restaurante - restaurante a agregar
-     * @return Json con el restaurante que agrego o Json con el error que se produjo
+     * Metodo que expone servicio REST usando POST que agrega el ingrediente que recibe en Json
+     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/ingredientes/ingrediente
+     * @param ingrediente - ingrediente a agregar
+     * @return Json con el ingrediente que agrego o Json con el error que se produjo
      */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addRestaurante(Restaurante restaurante) {
+	public Response addIngrediente(Ingrediente ingrediente) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
-			tm.addRestaurante(restaurante);
+			tm.addIngrediente(ingrediente);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(restaurante).build();
+		return Response.status(200).entity(ingrediente).build();
 	}
 
     /**
-     * Metodo que expone servicio REST usando PUT que actualiza el restaurante que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes
-     * @param restaurante - restaurante a actualizar. 
-     * @return Json con el restaurante que actualizo o Json con el error que se produjo
+     * Metodo que expone servicio REST usando PUT que actualiza el ingrediente que recibe en Json
+     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/ingredientes
+     * @param ingrediente - ingrediente a actualizar. 
+     * @return Json con el ingrediente que actualizo o Json con el error que se produjo
      */
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateRestaurante(Restaurante restaurante) {
+	public Response updateRestaurante(Ingrediente ingrediente) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
-			tm.updateRestaurante(restaurante);
+			tm.updateIngrediente(ingrediente);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(restaurante).build();
+		return Response.status(200).entity(ingrediente).build();
 	}
 	
     /**
-     * Metodo que expone servicio REST usando DELETE que elimina el restaurante que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes
-     * @param restaurante - restaurante a aliminar. 
-     * @return Json con el restaurante que elimino o Json con el error que se produjo
+     * Metodo que expone servicio REST usando DELETE que elimina el ingrediente que recibe en Json
+     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/ingredientes
+     * @param ingrediente - ingrediente a aliminar. 
+     * @return Json con el ingrediente que elimino o Json con el error que se produjo
      */
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteRestaurante(Restaurante restaurante) {
+	public Response deleteIngrediente(Ingrediente ingrediente) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
-			tm.deleteRestaurante(restaurante);
+			tm.deleteIngrediente(ingrediente);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(restaurante).build();
+		return Response.status(200).entity(ingrediente).build();
 	}
 
 

@@ -22,12 +22,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
 import vos.Ingrediente;
+import vos.Restaurante;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes/...
  * @author Juan Carreño
  */
-@Path("restaurantes")
+@Path("ingredientes")
 public class IngredienteServices {
 
 	/**
@@ -100,12 +101,19 @@ public class IngredienteServices {
      * @return Json con el ingrediente que agrego o Json con el error que se produjo
      */
 	@POST
+	@Path( "{nombre}" )
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addIngrediente(Ingrediente ingrediente) {
+	public Response addIngrediente(@PathParam( "nombre" ) String nombreRestaurante , Ingrediente ingrediente) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
+			Restaurante restaurante = tm.buscarRestaurantesPorName(nombreRestaurante);
+			if(restaurante==null){
+				String error = "No existe un restaurante con el nombre: "+nombreRestaurante;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else{
 			tm.addIngrediente(ingrediente);
+			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
@@ -121,7 +129,7 @@ public class IngredienteServices {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateRestaurante(Ingrediente ingrediente) {
+	public Response updateIngrediente(Ingrediente ingrediente) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
 			tm.updateIngrediente(ingrediente);

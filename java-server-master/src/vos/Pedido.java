@@ -1,6 +1,7 @@
 package vos;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -14,14 +15,52 @@ public class Pedido
 	private Date fecha;
 	@JsonProperty(value="idUsuario")
 	private int idUsuario;
+	@JsonProperty(value="producto")
+	private String nombreProducto ;
+
+	private Producto producto;
+	
+	private boolean entregado;
+
+	
 	
 	public Pedido(@JsonProperty(value="PEDIDO_ID")int id, @JsonProperty(value="COSTO_TOTAL")float costoTotal,
-				  @JsonProperty(value="FECHA")Date fecha, @JsonProperty(value="ID_USUARIO")int idUsuario)
+				  @JsonProperty(value="FECHA")Date fecha, @JsonProperty(value="ID_USUARIO")int idUsuario,
+				  @JsonProperty(value="idUsuario") String producto)
 	{
 		this.id = id;
 		this.costoTotal = costoTotal;
 		this.fecha = fecha;
 		this.idUsuario = idUsuario;
+		this.nombreProducto=producto;
+	}
+	
+	
+	public boolean isEntregado() {
+		return entregado;
+	}
+
+	public void setEntregado(boolean entregado) {
+		this.entregado = entregado;
+	}
+
+	public String getNombreProducto() {
+		return nombreProducto;
+	}
+
+
+	public void setNombreProducto(String nombreProducto) {
+		this.nombreProducto = nombreProducto;
+	}
+
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 
 	public int getId() {

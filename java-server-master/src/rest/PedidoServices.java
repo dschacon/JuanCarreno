@@ -87,7 +87,15 @@ public class PedidoServices {
 	public Response addPedido(Pedido pedido) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
-			tm.addPedido(pedido);
+			if(tm.buscarUsuarioPorId(pedido.getIdUsuario())==null){
+				String error = "No existe un usuario con el id: "+pedido.getIdUsuario() ;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else if(tm.buscarProductoPorName(pedido.getNombreProducto())==null){
+				String error = "No existe un prosucto con el nombre de : "+pedido.getNombreProducto() ;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else{
+				tm.addPedido(pedido);
+			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

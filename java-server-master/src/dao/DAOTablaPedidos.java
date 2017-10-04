@@ -82,7 +82,7 @@ public class DAOTablaPedidos {
 			float costoTotal = rs.getFloat("COSTO_TOTAL");
 			Date fecha = rs.getDate("FECHA");
 			int idUsuario = rs.getInt("ID_USUARIO");
-			pedidos.add(new Pedido(id, costoTotal, fecha, idUsuario));
+			pedidos.add(new Pedido(id, costoTotal, fecha, idUsuario,null));
 		}
 		return pedidos;
 	}
@@ -109,7 +109,7 @@ public class DAOTablaPedidos {
 			float costoTotal = rs.getFloat("COSTO_TOTAL");
 			Date fecha = rs.getDate("FECHA");
 			int idUsuario = rs.getInt("ID_USUARIO");
-			pedido = new Pedido(idP, costoTotal, fecha, idUsuario);
+			pedido = new Pedido(idP, costoTotal, fecha, idUsuario, null);
 		}
 
 		return pedido;

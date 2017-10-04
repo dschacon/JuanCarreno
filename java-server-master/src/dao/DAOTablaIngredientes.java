@@ -123,7 +123,7 @@ public class DAOTablaIngredientes {
 		String sql = "INSERT INTO INGREDIENTE VALUES ('";
 		sql += ingrediente.getNombre() + "','";
 		sql += ingrediente.getDescripcion() + "','";
-		sql += ingrediente.getTraduccion() + "',";
+		sql += ingrediente.getTraduccion() + "')";
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);

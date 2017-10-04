@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
+import vos.Usuario;
 import vos.Zona;
 
 /**
@@ -100,12 +101,25 @@ public class ZonaServices {
      * @return Json con la zona que agrego o Json con el error que se produjo
      */
 	@POST
+	@Path( "{id: \\d+}" )
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addZona(Zona zona) {
+	public Response addZona( @PathParam( "id" ) Integer id , Zona zona) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
-			tm.addZona(zona);
+			
+			Usuario admin = tm.buscarUsuarioPorId(id);
+			
+			if(admin==null){
+				String error = "No existe un administrador con el id: "+id;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else if((admin.getRol().toUpperCase().trim()).equals("ADMINISTRADOR")){
+				tm.addZona(zona);
+			}else{
+				String error = "Solo un administrador puede añadir una zona" ;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}
+			
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

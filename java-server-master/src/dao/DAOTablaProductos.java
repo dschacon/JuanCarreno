@@ -122,13 +122,19 @@ public class DAOTablaProductos {
 	 */
 	public void addProducto(Producto producto) throws SQLException, Exception {
 
-		String sql = "INSERT INTO PRODUCTO VALUES ('";
+		String sql = "INSERT INTO CATEGORIA VALUES ('"+ producto.getCategoria() +"')";
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+		
+		 sql = "INSERT INTO PRODUCTO VALUES ('";
 		sql += producto.getNombre() + "','";
 		sql += producto.getDescripcion() + "','";
 		sql += producto.getTraduccion() + "','";
 		sql += producto.getCategoria() + "')";
 
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 

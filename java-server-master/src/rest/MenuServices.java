@@ -22,6 +22,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
 import vos.Menu;
+import vos.Restaurante;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/RotondAndes/rest/menus/...
@@ -100,12 +101,19 @@ public class MenuServices {
      * @return Json con el menu que agrego o Json con el error que se produjo
      */
 	@POST
+	@Path( "{nombre}" )
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addMenu(Menu menu) {
+	public Response addMenu(@PathParam( "nombre" ) String nombreRestaurante, Menu menu) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
+			Restaurante restaurante = tm.buscarRestaurantesPorName(nombreRestaurante);
+			if(restaurante==null){
+				String error = "No existe un restaurante con el nombre: "+nombreRestaurante;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else{
 			tm.addMenu(menu);
+			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

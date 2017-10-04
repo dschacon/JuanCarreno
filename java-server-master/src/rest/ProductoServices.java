@@ -18,6 +18,7 @@ import vos.Producto;
 import vos.Restaurante;
 import vos.Usuario;
 
+@Path("productos")
 public class ProductoServices {
 
 	@Context

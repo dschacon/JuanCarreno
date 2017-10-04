@@ -25,14 +25,22 @@ public class Producto
 	@JsonProperty(value="tipo")
 	private List<String> tipo;
 
-	public Producto(@JsonProperty(value="NOMBRE")String nombre, 
-					@JsonProperty(value="DESCRIPCION")String descripcion,
-					@JsonProperty(value="TRADUCCION")String traduccion, 
-					@JsonProperty(value="CATEGORIA")String categoria)
+	public Producto(@JsonProperty(value="nombre")String nombre,
+					@JsonProperty(value="disponible")Integer disponible,
+					@JsonProperty(value="descripcion")String descripcion,
+					@JsonProperty(value="traduccion")String traduccion,
+					@JsonProperty(value="tiempoPreparacion")Float tiempoPreparacion,
+					@JsonProperty(value="costoProduccion")Float costoProduccion,
+					@JsonProperty(value="precioVenta")Float precioVenta,
+					@JsonProperty(value="categoria")String categoria)
 	{
 		this.nombre = nombre;
+		this.disponible = disponible;
 		this.descripcion = descripcion;
 		this.traduccion = traduccion;
+		this.tiempoPreparacion= tiempoPreparacion;
+		this.costoProduccion= costoProduccion;
+		this.precioVenta = precioVenta;
 		this.categoria = categoria;
 	}
 	

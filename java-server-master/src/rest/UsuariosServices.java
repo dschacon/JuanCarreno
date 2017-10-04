@@ -96,6 +96,10 @@ public class UsuariosServices {
 	public Response addUsuario(Usuario usuario) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
+			if((usuario.getRol().toUpperCase().trim()).equals("CLIENTE")){
+				String error = "Un cliente solo puede ser añadido por un administrador";
+				 return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}
 			tm.addUsuario(usuario);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
@@ -124,10 +128,10 @@ public class UsuariosServices {
 				String error = "No existe un cliente con el id: "+id;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
 			}else if((admin.getRol().toUpperCase().trim()).equals("ADMINISTRADOR")){
-				String error = "Un cliente solo puede ser añadido por un administrador";
-				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
-			}else{
 				tm.addUsuario(usuario);
+			}else{
+				String error = "Solo un administrador puede añadir un cliente" ;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
 			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();

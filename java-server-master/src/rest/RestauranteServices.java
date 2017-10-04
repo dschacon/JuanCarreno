@@ -109,9 +109,9 @@ public class RestauranteServices {
 		try {
 			Usuario admin = tm.buscarUsuarioPorId(id);
 			if(admin==null){
-				String error = "No existe un cliente con el id: "+id;
+				String error = "No existe un administrador con el id: "+id;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
-			}else if((admin.getRol().toUpperCase().trim()).equals("ADMINISTRADOR")){
+			}else if(!(admin.getRol().toUpperCase().trim()).equals("ADMINISTRADOR")){
 				String error = "Un restaurante solo puede ser añadido por un administrador";
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
 			}else{

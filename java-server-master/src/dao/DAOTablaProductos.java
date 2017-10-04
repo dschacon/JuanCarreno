@@ -79,7 +79,7 @@ public class DAOTablaProductos {
 			String descripcion = rs.getString("DESCRIPCION");
 			String traduccion = rs.getString("TRADUCCION");
 			String categoria = rs.getString("CATEGORIA");		
-			productos.add(new Producto(name, descripcion, traduccion, categoria));
+			productos.add(new Producto(name, null, descripcion, traduccion, null, null, null, categoria));
 		}
 		return productos;
 	}
@@ -106,7 +106,7 @@ public class DAOTablaProductos {
 			String descripcion = rs.getString("DESCRIPCION");
 			String traduccion = rs.getString("TRADUCCION");
 			String categoria = rs.getString("CATEGORIA");		
-			productos =new Producto(nombre, descripcion, traduccion, categoria);
+			productos = new Producto(name, null, descripcion, traduccion, null, null, null, categoria);
 		}
 
 		return productos;
@@ -125,8 +125,8 @@ public class DAOTablaProductos {
 		String sql = "INSERT INTO PRODUCTO VALUES ('";
 		sql += producto.getNombre() + "','";
 		sql += producto.getDescripcion() + "','";
-		sql += producto.getTraduccion() + "',";
-		sql += producto.getCategoria() + ")";
+		sql += producto.getTraduccion() + "','";
+		sql += producto.getCategoria() + "')";
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);

@@ -243,14 +243,14 @@ public class RotondAndesTm {
 		return restaurantes;
 	}
 
-	public List<Restaurante> buscarRestaurantesPorName(String name) throws Exception{
-		List<Restaurante> restaurantes;
+	public Restaurante buscarRestaurantesPorName(String name) throws Exception{
+		Restaurante restaurante;
 		DAOTablaRestaurantes daoRestaurantes = new DAOTablaRestaurantes();
 		try 
 		{
 			this.conn = darConexion();
 			daoRestaurantes.setConn(conn);
-			restaurantes = daoRestaurantes.buscarRestaurantesPorNombre(name);
+			restaurante = daoRestaurantes.buscarRestaurantesPorNombre(name);
 
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -271,7 +271,7 @@ public class RotondAndesTm {
 				throw exception;
 			}
 		}
-		return restaurantes;
+		return restaurante;
 	}
 
 	public void addRestaurante(Restaurante restaurante) throws Exception {

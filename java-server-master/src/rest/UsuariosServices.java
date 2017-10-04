@@ -103,4 +103,35 @@ public class UsuariosServices {
 		return Response.status(200).entity(usuario).build();
 	}
 	
+	
+	
+	/**
+     * Metodo que expone servicio REST usando POST que agrega el video que recibe en Json
+     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/video
+     * @param video - video a agregar
+     * @return Json con el video que agrego o Json con el error que se produjo
+     */
+	@POST
+	@Path( "{id: \\d+}" )
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addCliente( @PathParam( "id" ) Integer id , Usuario usuario) {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
+		try {
+			Usuario admin = tm.buscarUsuarioPorId(id);
+			
+			if(admin==null){
+				String error = "No existe un cliente con el id: "+id;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else if((admin.getRol().toUpperCase().trim()).equals("ADMINISTRADOR")){
+				String error = "Un cliente solo puede ser añadido por un administrador";
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else{
+				tm.addUsuario(usuario);
+			}
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(usuario).build();
+	}
 }

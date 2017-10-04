@@ -93,8 +93,8 @@ public class DAOTablaRestaurantes {
 	 * @throws SQLException - Cualquier error que la base de datos arroje.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public ArrayList<Restaurante> buscarRestaurantesPorNombre(String name) throws SQLException, Exception {
-		ArrayList<Restaurante> restaurantes = new ArrayList<Restaurante>();
+	public Restaurante buscarRestaurantesPorNombre(String name) throws SQLException, Exception {
+		Restaurante restaurante = null ;
 
 		String sql = "SELECT * FROM RESTAURANTE WHERE NOMBRE ='" + name + "'";
 
@@ -108,10 +108,10 @@ public class DAOTablaRestaurantes {
 			String paginaWeb = rs.getString("PAGINAWEB");
 			String representante = rs.getString("REPRESENTANTE");
 			String nombreZona = rs.getString("NOMBREZONA");		
-			restaurantes.add(new Restaurante(nombre, tipoComida, paginaWeb, representante, nombreZona));
+			restaurante = new Restaurante(nombre, tipoComida, paginaWeb, representante, nombreZona);
 		}
 
-		return restaurantes;
+		return restaurante;
 	}
 
 	/**

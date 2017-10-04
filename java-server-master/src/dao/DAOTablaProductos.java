@@ -78,7 +78,7 @@ public class DAOTablaProductos {
 			String name = rs.getString("NOMBRE");
 			String descripcion = rs.getString("DESCRIPCION");
 			String traduccion = rs.getString("TRADUCCION");
-			int categoria = rs.getInt("CATEGORIA");		
+			String categoria = rs.getString("CATEGORIA");		
 			productos.add(new Producto(name, descripcion, traduccion, categoria));
 		}
 		return productos;
@@ -105,7 +105,7 @@ public class DAOTablaProductos {
 			String nombre = rs.getString("NOMBRE");
 			String descripcion = rs.getString("DESCRIPCION");
 			String traduccion = rs.getString("TRADUCCION");
-			int categoria = rs.getInt("CATEGORIA");		
+			String categoria = rs.getString("CATEGORIA");		
 			productos =new Producto(nombre, descripcion, traduccion, categoria);
 		}
 

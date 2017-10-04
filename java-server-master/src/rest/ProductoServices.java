@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import tm.RotondAndesTm;
 import vos.Producto;
+import vos.Restaurante;
 import vos.Usuario;
 
 public class ProductoServices {
@@ -64,12 +65,19 @@ public class ProductoServices {
      * @return Json con el video que agrego o Json con el error que se produjo
      */
 	@POST
+	@Path( "{nombre}" )
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addProducto(Producto producto) {
+	public Response addProducto(@PathParam( "nombre" ) String nombreRestaurante , Producto producto) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
+			Restaurante restaurante = tm.buscarRestaurantesPorName(nombreRestaurante);
+			if(restaurante==null){
+				String error = "No existe un restaurante con el nombre: "+nombreRestaurante;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else{
 			tm.addProducto(producto);
+			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

@@ -72,7 +72,7 @@ public class DAOTablaUsuarios {
 			ResultSet rs = prepStmt.executeQuery();
 
 			while (rs.next()) {
-				String numero = rs.getString("NUMERO_ID");
+				Integer numero = rs.getInt("NUMERO_ID");
 				String nombre = rs.getString("NOMBRE");
 				String rol = rs.getString("ROL");
 				String email = rs.getString("EMAIL");
@@ -100,7 +100,7 @@ public class DAOTablaUsuarios {
 
 			while (rs.next()) {
 				String name2 = rs.getString("NOMBRE");
-				String id = rs.getString("NUMERO_ID");
+				Integer id = rs.getInt("NUMERO_ID");
 				String rol = rs.getString("ROL");
 				String email = rs.getString("EMAIL");
 				usuarios.add(new Usuario(id, name2, rol, email));
@@ -127,7 +127,7 @@ public class DAOTablaUsuarios {
 			ResultSet rs = prepStmt.executeQuery();
 
 			if(rs.next()) {
-				String id2 = rs.getString("NUMERO_ID");
+				Integer id2 = rs.getInt("NUMERO_ID");
 				String name2 = rs.getString("NOMBRE");
 				String rol = rs.getString("ROL");
 				String email = rs.getString("EMAIL");
@@ -146,7 +146,10 @@ public class DAOTablaUsuarios {
 		 * @throws Exception - Cualquier error que no corresponda a la base de datos
 		 */
 		public void addUsuario(Usuario usuario) throws SQLException, Exception {
-
+			
+			String rol = usuario.getRol().toUpperCase().trim() ;
+			if(rol.equals("ADMINISTRADOR")||rol.equals("USUARIO")||rol.equals("CLIENTE")){
+				
 			String sql = "INSERT INTO USUARIO VALUES (";
 			sql += usuario.getId() + ",'";
 			sql += usuario.getNombre() + "','";
@@ -156,6 +159,10 @@ public class DAOTablaUsuarios {
 			PreparedStatement prepStmt = conn.prepareStatement(sql);
 			recursos.add(prepStmt);
 			prepStmt.executeQuery();
+			}else{
+				throw new Exception("El rol no concide con alguno permitido ");
+			}
+			
 
 		}
 		

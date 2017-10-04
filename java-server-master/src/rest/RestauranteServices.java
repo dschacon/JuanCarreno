@@ -22,6 +22,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
 import vos.Restaurante;
+import vos.Usuario;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes/...
@@ -81,7 +82,7 @@ public class RestauranteServices {
 	@Produces( { MediaType.APPLICATION_JSON } )
 	public Response getRestauranteName( @PathParam("nombre") String name) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Restaurante> restaurantes;
+		Restaurante restaurantes;
 		try {
 			if (name == null || name.length() == 0)
 				throw new Exception("Nombre del restaurante no valido");
@@ -100,12 +101,22 @@ public class RestauranteServices {
      * @return Json con el restaurante que agrego o Json con el error que se produjo
      */
 	@POST
+	@Path( "{id: \\d+}" )
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addRestaurante(Restaurante restaurante) {
+	public Response addRestaurante(@PathParam( "id" ) Integer id ,Restaurante restaurante) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
+			Usuario admin = tm.buscarUsuarioPorId(id);
+			if(admin==null){
+				String error = "No existe un cliente con el id: "+id;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else if((admin.getRol().toUpperCase().trim()).equals("ADMINISTRADOR")){
+				String error = "Un restaurante solo puede ser añadido por un administrador";
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else{
 			tm.addRestaurante(restaurante);
+			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

@@ -8,25 +8,27 @@ public class Producto
 {
 	@JsonProperty(value="nombre")
 	private String nombre;
-//	@JsonProperty(value="disponible")
-//	private boolean disponible;
+	@JsonProperty(value="disponible")
+	private Integer disponible;
 	@JsonProperty(value="descripcion")
 	private String descripcion;
 	@JsonProperty(value="traduccion")
 	private String traduccion;
-//	@JsonProperty(value="tiempoPreparacion")
-//	private int tiempoPreparacion;
-//	@JsonProperty(value="costoProduccion")
-//	private int costoProduccion;
-//	@JsonProperty(value="precioVenta")
-//	private int precioVenta;
+	@JsonProperty(value="tiempoPreparacion")
+	private Float tiempoPreparacion;
+	@JsonProperty(value="costoProduccion")
+	private Float costoProduccion;
+	@JsonProperty(value="precioVenta")
+	private Float precioVenta;
 	@JsonProperty(value="categoria")
-	private int categoria;
-//	@JsonProperty(value="tipo")
-//	private List<String> tipo;
+	private String categoria;
+	@JsonProperty(value="tipo")
+	private List<String> tipo;
 
-	public Producto(@JsonProperty(value="NOMBRE")String nombre, @JsonProperty(value="DESCRIPCION")String descripcion,
-					@JsonProperty(value="TRADUCCION")String traduccion, @JsonProperty(value="CATEGORIA")int categoria)
+	public Producto(@JsonProperty(value="NOMBRE")String nombre, 
+					@JsonProperty(value="DESCRIPCION")String descripcion,
+					@JsonProperty(value="TRADUCCION")String traduccion, 
+					@JsonProperty(value="CATEGORIA")String categoria)
 	{
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -41,14 +43,6 @@ public class Producto
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-//	public boolean isDisponible() {
-//		return disponible;
-//	}
-//
-//	public void setDisponible(boolean disponible) {
-//		this.disponible = disponible;
-//	}
 
 	public String getDescripcion() {
 		return descripcion;
@@ -66,45 +60,12 @@ public class Producto
 		this.traduccion = traduccion;
 	}
 
-//	public int getTiempoPreparacion() {
-//		return tiempoPreparacion;
-//	}
-//
-//	public void setTiempoPreparacion(int tiempoPreparacion) {
-//		this.tiempoPreparacion = tiempoPreparacion;
-//	}
-//
-//	public int getCostoProduccion() {
-//		return costoProduccion;
-//	}
-//
-//	public void setCostoProduccion(int costoProduccion) {
-//		this.costoProduccion = costoProduccion;
-//	}
-//
-//	public int getPrecioVenta() {
-//		return precioVenta;
-//	}
-//
-//	public void setPrecioVenta(int precioVenta) {
-//		this.precioVenta = precioVenta;
-//	}
-
-	public int getCategoria() {
+	public String getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(int categoria) {
+	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
-
-//	public List<String> getTipo() {
-//		return tipo;
-//	}
-//
-//	public void setTipo(List<String> tipo) {
-//		this.tipo = tipo;
-//	}
-
 
 }

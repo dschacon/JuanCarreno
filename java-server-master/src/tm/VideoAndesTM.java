@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 
 import dao.DAOTablaVideos;
+import vos.PreferenciaRestaurante;
 import vos.Video;
 
 /**

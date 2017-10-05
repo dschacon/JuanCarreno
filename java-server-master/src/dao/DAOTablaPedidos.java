@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
 
@@ -98,7 +99,7 @@ public class DAOTablaPedidos {
 	{
 		Pedido pedido = null;
 
-		String sql = "SELECT * FROM PEDIDO WHERE ID =" + id;
+		String sql = "SELECT * FROM PEDIDO WHERE PEDIDO_ID =" + id;
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
@@ -125,12 +126,17 @@ public class DAOTablaPedidos {
 	 */
 	public void addPedido(Pedido pedido) throws SQLException, Exception {
 
+		
+		String fecha = pedido.getFecha().toString();
+		String ano= fecha.substring(2,3);
+		String fechainco=fecha.replace('-', '/');
+		String completa = ano+fechainco.substring(4);
 		String sql = "INSERT INTO PEDIDO VALUES (";
 		sql += pedido.getId() + ",";
 		sql += pedido.getCostoTotal() + ",";
-		sql += pedido.getFecha() + ",";
-		sql += pedido.getIdUsuario() + ")";
-
+		sql += pedido.getIdUsuario() + ",'";
+		sql += completa + "')";
+		System.out.print("la fecha es:"+pedido.getFecha());
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
@@ -145,18 +151,21 @@ public class DAOTablaPedidos {
 	 * @throws SQLException - Cualquier error que la base de datos arroje. No pudo actualizar el pedido.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public void updatePedido(Pedido pedido) throws SQLException, Exception {
+	public Pedido updatePedido( int id ) throws SQLException, Exception {
 
-		String sql = "UPDATE RESTAURANTE SET ";
-		sql += "COSTO_TOTAL=" + pedido.getCostoTotal() + ",";
-		sql += "FECHA=" + pedido.getFecha() + ",";
-		sql += "ID_USUARIO=" + pedido.getIdUsuario() + ",";
-		sql += " WHERE PEDIDO_ID = " + pedido.getId();
-
-
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
-		recursos.add(prepStmt);
-		prepStmt.executeQuery();
+		Pedido pedido = buscarPedidoPorId(id);
+		pedido.setEntregado(true);
+//		String sql = "UPDATE RESTAURANTE SET ";
+//		sql += "COSTO_TOTAL=" + pedido.getCostoTotal() + ",";
+//		sql += "FECHA=" + pedido.getFecha() + ",";
+//		sql += "ID_USUARIO=" + pedido.getIdUsuario() + ",";
+//		sql += " WHERE PEDIDO_ID = " + pedido.getId();
+//
+//
+//		PreparedStatement prepStmt = conn.prepareStatement(sql);
+//		recursos.add(prepStmt);
+//		prepStmt.executeQuery();
+		return pedido;
 	}
 
 	/**

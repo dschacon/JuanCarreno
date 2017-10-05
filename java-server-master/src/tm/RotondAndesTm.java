@@ -606,15 +606,15 @@ public class RotondAndesTm {
 		}	
 	}
 
-	public void updatePedido(Pedido pedido) throws Exception {
+	public Pedido updatePedido(int id) throws Exception {
 		DAOTablaPedidos daoPedido = new DAOTablaPedidos();
 		try 
 		{
 			this.conn = darConexion();
 			daoPedido.setConn(conn);
-			daoPedido.updatePedido(pedido);
+			 Pedido pedido = daoPedido.updatePedido(id);
 			conn.commit();
-
+			return pedido;
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();

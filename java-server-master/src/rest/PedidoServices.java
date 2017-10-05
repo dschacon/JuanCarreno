@@ -22,6 +22,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
 import vos.Pedido;
+import vos.Producto;
 import vos.Video;
 
 /**
@@ -87,13 +88,15 @@ public class PedidoServices {
 	public Response addPedido(Pedido pedido) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
+			Producto producto = tm.buscarProductoPorName(pedido.getNombreProducto());
 			if(tm.buscarUsuarioPorId(pedido.getIdUsuario())==null){
 				String error = "No existe un usuario con el id: "+pedido.getIdUsuario() ;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
-			}else if(tm.buscarProductoPorName(pedido.getNombreProducto())==null){
+			}else if(producto==null){
 				String error = "No existe un prosucto con el nombre de : "+pedido.getNombreProducto() ;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
 			}else{
+				pedido.setProducto(producto);
 				tm.addPedido(pedido);
 			}
 		} catch (Exception e) {
@@ -109,12 +112,17 @@ public class PedidoServices {
      * @return Json con el pedido que actualizo o Json con el error que se produjo
      */
 	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Path( "{id: \\d+}" )
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updatePedido(Pedido pedido) {
+	public Response updatePedido(@PathParam( "id" ) int id ) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
+		Pedido pedido;
 		try {
-			tm.updatePedido(pedido);
+			pedido = tm.updatePedido(id);
+			if(pedido==null){
+				String error = "No existe un pedido con el id: "+id ;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

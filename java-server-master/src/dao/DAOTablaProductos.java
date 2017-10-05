@@ -104,7 +104,7 @@ public class DAOTablaProductos {
 		while (rs.next()) {
 			String nombre = rs.getString("NOMBRE");
 			String descripcion = rs.getString("DESCRIPCION");
-			String traduccion = rs.getString("TRADUCCION");
+			String traduccion = rs.getString("TRADUCION");
 			String categoria = rs.getString("CATEGORIA");		
 			productos = new Producto(name, null, descripcion, traduccion, null, null, null, categoria);
 		}

@@ -26,7 +26,7 @@ public class Pedido
 	
 	public Pedido(@JsonProperty(value="PEDIDO_ID")int id, @JsonProperty(value="COSTO_TOTAL")float costoTotal,
 				  @JsonProperty(value="FECHA")Date fecha, @JsonProperty(value="ID_USUARIO")int idUsuario,
-				  @JsonProperty(value="idUsuario") String producto)
+				  @JsonProperty(value="producto") String producto)
 	{
 		this.id = id;
 		this.costoTotal = costoTotal;

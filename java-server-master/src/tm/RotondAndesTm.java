@@ -43,12 +43,12 @@ public class RotondAndesTm {
 	 * Atributo que guarda el driver que se va a usar para conectarse a la base de datos.
 	 */
 	private String driver;
-	
+
 	/**
 	 * conexion a la base de datos
 	 */
 	private Connection conn;
-	
+
 	/**
 	 * Metodo constructor de la clase VideoAndesMaster, esta clase modela y contiene cada una de las 
 	 * transacciones y la logica de negocios que estas conllevan.
@@ -97,7 +97,7 @@ public class RotondAndesTm {
 	////////////////////////////////////////
 
 
-	
+
 	/**
 	 * Metodo que modela la transaccion que busca el/los usuarios en la base de datos con el nombre entra como parametro.
 	 * @param name - Nombre del usuario a buscar. name != null
@@ -135,8 +135,8 @@ public class RotondAndesTm {
 		}
 		return usuarios;
 	}
-		
-	
+
+
 	/**
 	 * Metodo que modela la transaccion que busca el video en la base de datos con el id que entra como parametro.
 	 * @param name - Id del video a buscar. name != null
@@ -174,7 +174,7 @@ public class RotondAndesTm {
 		}
 		return video;
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parametro
@@ -847,7 +847,7 @@ public class RotondAndesTm {
 				throw exception;
 			}
 		}
-		
+
 	}
 
 	public List<Ingrediente> darIngredientes() throws Exception {
@@ -1001,6 +1001,187 @@ public class RotondAndesTm {
 			}
 		}
 	}
-	
 
+	public List<Restaurante> darPreferenciasRestaurante(Integer id) throws Exception{
+		List<Restaurante> preferencias;
+		DAOTablaPreferenciaRestaurante daoPreferencias = new DAOTablaPreferenciaRestaurante();
+		try 
+		{
+			this.conn = darConexion();
+			daoPreferencias.setConn(conn);
+			preferencias = daoPreferencias.buscarPreferenciaUsuario(id);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPreferencias.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return preferencias;
+	}
+
+	public void addPreferenciaRestaurante(PreferenciaRestaurante preferencia) throws Exception {
+		DAOTablaPreferenciaRestaurante daoPreferencia = new DAOTablaPreferenciaRestaurante();
+		try 
+		{
+			this.conn = darConexion();
+			daoPreferencia.setConn(conn);
+			daoPreferencia.addPreferencia(preferencia);;
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPreferencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	public List<Producto> darPreferenciasProducto(Integer id) throws Exception {
+		List<Producto> preferencias;
+		DAOTablaPreferenciaProducto daoPreferencias = new DAOTablaPreferenciaProducto();
+		try 
+		{
+			this.conn = darConexion();
+			daoPreferencias.setConn(conn);
+			preferencias = daoPreferencias.buscarPreferenciaUsuario(id);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPreferencias.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return preferencias;
+	}
+
+	public void addPreferenciaProducto(PreferenciaProducto preferencia) throws Exception {
+		DAOTablaPreferenciaProducto daoPreferencia = new DAOTablaPreferenciaProducto();
+		try 
+		{
+			this.conn = darConexion();
+			daoPreferencia.setConn(conn);
+			daoPreferencia.addPreferencia(preferencia);;
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPreferencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	public List<Zona> darPreferenciasZona(Integer id) throws Exception {
+		List<Zona> preferencias;
+		DAOTablaPreferenciaZona daoPreferencias = new DAOTablaPreferenciaZona();
+		try 
+		{
+			this.conn = darConexion();
+			daoPreferencias.setConn(conn);
+			preferencias = daoPreferencias.buscarPreferenciaUsuario(id);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPreferencias.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return preferencias;
+	}
+
+	public void addPreferenciaZona(PreferenciaZona preferencia) throws Exception{
+		DAOTablaPreferenciaZona daoPreferencia = new DAOTablaPreferenciaZona();
+		try 
+		{
+			this.conn = darConexion();
+			daoPreferencia.setConn(conn);
+			daoPreferencia.addPreferencia(preferencia);;
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPreferencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
 }

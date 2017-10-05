@@ -1,8 +1,12 @@
 package vos;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class PreferenciaRestaurante {
 	
+	@JsonProperty(value="numeroUsuario")
 	private Integer numeroUsuario;
+	@JsonProperty(value="nombreRestaurante")
 	private String nombreRestaurante;
 
 	public Integer getNumeroUsuario() {

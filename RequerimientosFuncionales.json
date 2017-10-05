@@ -1,0 +1,347 @@
+{
+	"variables": [],
+	"info": {
+		"name": "RequerimientosFuncionales",
+		"_postman_id": "ef4264cd-4426-7f3f-a548-0dd2f64fbd6b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/usuario/123",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"diegochacon\",\r\n    \"id\":20162,\r\n    \"rol\": \"cliente\",\r\n    \"email\":\"jp.carreno\"\r\n\t\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/usuario/123",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"diegochacon\",\r\n    \"id\":20162,\r\n    \"rol\": \"cliente\",\r\n    \"email\":\"jp.carreno\"\r\n\t\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/usuario/12345",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"diegochacon\",\r\n    \"id\":20162,\r\n    \"rol\": \"cliente\",\r\n    \"email\":\"jp.carreno\"\r\n\t\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/restaurantes/887",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/restaurantes/887",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"Corral\",\r\n    \"tipoComida\":\"Rapida\",\r\n    \"paginaWeb\":\"corral.com\",\r\n    \"representante\":\"osorio\",\r\n    \"nombreZona\":\"Jardin\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/restaurantes/887",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/restaurantes/12345",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"burros\",\r\n    \"tipoComida\":\"Rapida\",\r\n    \"paginaWeb\":\"corral.com\",\r\n    \"representante\":\"osorio\",\r\n    \"nombreZona\":\"Jardin\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/productos/CorralL",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/productos/CorralL",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"todoTerreno\",\r\n    \"disponible\":30,\r\n    \"descripcion\":\"hamburgesa 3/4 de libra\",\r\n    \"traduccion\":\"holiwiiiii\",\r\n    \"tiempoPreparacion\":20,\r\n    \"costoProduccion\":10000,\r\n    \"precioVenta\":20000,\r\n    \"categoria\":\"hamburgesas\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/productos/CorralL",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/productos/Corral",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"todoTerreno2\",\r\n    \"disponible\":30,\r\n    \"descripcion\":\"hamburgesa 3/4 de libra\",\r\n    \"traduccion\":\"holiwiiiii\",\r\n    \"tiempoPreparacion\":20,\r\n    \"costoProduccion\":10000,\r\n    \"precioVenta\":20000,\r\n    \"categoria\":\"hamburgesasG\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/ingredientes/Corrall",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/ingredientes/Corrall",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"gaseosa\",\r\n    \"descripcion\":\"carne\",\r\n    \"traduccion\":\"holiwiiiii\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/ingredientes/Corrall",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/ingredientes/Corral",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"gaseosa\",\r\n    \"descripcion\":\"carne\",\r\n    \"traduccion\":\"holiwiiiii\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/menus/Corrall",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/menus/Corrall",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"comboPapitas\",\r\n    \"costoProduccion\":11000,\r\n    \"precioVenta\":20000,\r\n    \"restaurante\":\"Corral\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/menus/Corrall",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/menus/Corral",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"comboPapitas\",\r\n    \"costoProduccion\":11000,\r\n    \"precioVenta\":20000,\r\n    \"restaurante\":\"Corral\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/zonas/887",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/zonas/887",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"norte\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/zonas/12345",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/zonas/12345",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"norte\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/pedidos",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/pedidos",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":145,\r\n    \"costo\":3000,\r\n    \"fecha\":\"2017-10-09\",\r\n    \"idUsuario\":12345 ,\r\n    \"producto\":\"3/4 de libra\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/pedidos/2",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/pedidos/2",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":12,\r\n    \"costo\":3000,\r\n    \"fecha\":\"2017-10-09\",\r\n    \"idUsuario\":12345 ,\r\n    \"producto\":\"3/4 de libra\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

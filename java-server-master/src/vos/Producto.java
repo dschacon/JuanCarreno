@@ -24,6 +24,57 @@ public class Producto
 	private String categoria;
 	@JsonProperty(value="tipo")
 	private List<String> tipo;
+	@JsonProperty(value="maximo")
+	private Integer maximo;
+	
+	
+	public Integer getMaximo() {
+		return maximo;
+	}
+
+	public void setMaximo(Integer maximo) {
+		this.maximo = maximo;
+	}
+
+	public Integer getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(Integer disponible) {
+		this.disponible = disponible;
+	}
+
+	public Float getTiempoPreparacion() {
+		return tiempoPreparacion;
+	}
+
+	public void setTiempoPreparacion(Float tiempoPreparacion) {
+		this.tiempoPreparacion = tiempoPreparacion;
+	}
+
+	public Float getCostoProduccion() {
+		return costoProduccion;
+	}
+
+	public void setCostoProduccion(Float costoProduccion) {
+		this.costoProduccion = costoProduccion;
+	}
+
+	public Float getPrecioVenta() {
+		return precioVenta;
+	}
+
+	public void setPrecioVenta(Float precioVenta) {
+		this.precioVenta = precioVenta;
+	}
+
+	public List<String> getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(List<String> tipo) {
+		this.tipo = tipo;
+	}
 
 	public Producto(@JsonProperty(value="nombre")String nombre,
 					@JsonProperty(value="disponible")Integer disponible,
@@ -32,7 +83,8 @@ public class Producto
 					@JsonProperty(value="tiempoPreparacion")Float tiempoPreparacion,
 					@JsonProperty(value="costoProduccion")Float costoProduccion,
 					@JsonProperty(value="precioVenta")Float precioVenta,
-					@JsonProperty(value="categoria")String categoria)
+					@JsonProperty(value="categoria")String categoria,
+					@JsonProperty(value="maximo")Integer maximo)
 	{
 		this.nombre = nombre;
 		this.disponible = disponible;
@@ -42,6 +94,7 @@ public class Producto
 		this.costoProduccion= costoProduccion;
 		this.precioVenta = precioVenta;
 		this.categoria = categoria;
+		this.maximo = maximo; 
 	}
 	
 	public String getNombre() {

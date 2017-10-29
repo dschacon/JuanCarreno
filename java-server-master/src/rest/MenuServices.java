@@ -82,7 +82,7 @@ public class MenuServices {
 	@Produces( { MediaType.APPLICATION_JSON } )
 	public Response getMenuName( @PathParam("nombre") String name) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Menu> menus;
+		Menu menus;
 		try {
 			if (name == null || name.length() == 0)
 				throw new Exception("Nombre del menu no valido");
@@ -112,6 +112,7 @@ public class MenuServices {
 				String error = "No existe un restaurante con el nombre: "+nombreRestaurante;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
 			}else{
+			menu.setRestaurante(restaurante.getNombre());	
 			tm.addMenu(menu);
 			}
 		} catch (Exception e) {

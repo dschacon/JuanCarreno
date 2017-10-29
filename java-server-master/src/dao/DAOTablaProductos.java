@@ -79,7 +79,7 @@ public class DAOTablaProductos {
 			String descripcion = rs.getString("DESCRIPCION");
 			String traduccion = rs.getString("TRADUCCION");
 			String categoria = rs.getString("CATEGORIA");		
-			productos.add(new Producto(name, null, descripcion, traduccion, null, null, null, categoria));
+			productos.add(new Producto(name, null, descripcion, traduccion, null, null, null, categoria,null));
 		}
 		return productos;
 	}
@@ -95,7 +95,7 @@ public class DAOTablaProductos {
 	public Producto buscarProductosPorNombre(String name) throws SQLException, Exception {
 		Producto productos=null ;
 
-		String sql = "SELECT * FROM PRODUCTO WHERE NOMBRE ='" + name + "'";
+		String sql = "SELECT * FROM PRODUCTO JOIN RESTAURANTE_PRODUCTO ON PRODUCTO.NOMBRE= RESTAURANTE_PRODUCTO.NOMBRE_PRODUCTO WHERE NOMBRE='"+ name +"'";
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
@@ -104,9 +104,14 @@ public class DAOTablaProductos {
 		while (rs.next()) {
 			String nombre = rs.getString("NOMBRE");
 			String descripcion = rs.getString("DESCRIPCION");
-			String traduccion = rs.getString("TRADUCION");
-			String categoria = rs.getString("CATEGORIA");		
-			productos = new Producto(name, null, descripcion, traduccion, null, null, null, categoria);
+			String traduccion = rs.getString("TRADUCCION");
+			String categoria = rs.getString("CATEGORIA");
+			Integer disponible = rs.getInt("DISPONIBLES");
+			Integer maximo = rs.getInt("MAXIMO");
+			Float costoProduccion=rs.getFloat("COSTO_PRODUCCION");
+			Float precioVenta=rs.getFloat("PRECIO_VENTA");
+			Float tiempo=rs.getFloat("TIEMPO_PREPARACION");
+			productos = new Producto(nombre, disponible , descripcion, traduccion, tiempo , costoProduccion, precioVenta, categoria,maximo);
 		}
 
 		return productos;
@@ -120,7 +125,7 @@ public class DAOTablaProductos {
 	 * @throws SQLException - Cualquier error que la base de datos arroje. No pudo agregar el producto a la base de datos
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public void addProducto(Producto producto) throws SQLException, Exception {
+	public void addProducto(Producto producto , Restaurante restaurante) throws SQLException, Exception {
 
 		String sql = "SELECT * FROM CATEGORIA WHERE NOMBRE ='" + producto.getCategoria() + "'";
 
@@ -146,7 +151,14 @@ public class DAOTablaProductos {
 		prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
-
+		
+		//INSERT INTO RESTAURANTE_PRODUCTO VALUES('Corral','diana',20,10,22,16,16); 
+		sql="INSERT INTO RESTAURANTE_PRODUCTO VALUES('";
+		
+		sql+= restaurante.getNombre()+"',"+"'"+producto.getNombre()+"',"+producto.getCostoProduccion()+","+ producto.getTiempoPreparacion()+"," +producto.getPrecioVenta()+","+producto.getDisponible()+","+producto.getMaximo()+")";
+		prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
 	}
 	
 	/**
@@ -159,13 +171,9 @@ public class DAOTablaProductos {
 	 */
 	public void updateProducto(Producto producto) throws SQLException, Exception {
 
-		String sql = "UPDATE PRODUCTO SET ";
-		sql += "DESCRIPCION='" + producto.getDescripcion() + "',";
-		sql += "TRADUCCION='" + producto.getTraduccion() + "',";
-		sql += "CATEGORIA=" + producto.getCategoria() + ",";
-		sql += " WHERE NOMBRE = " + producto.getNombre();
-
-
+		//UPDATE RESTAURANTE_PRODUCTO SET DISPONIBLES=MAXIMO WHERE NOMBRE_PRODUCTO='alitas3';
+		String sql = "UPDATE RESTAURANTE_PRODUCTO SET DISPONIBLES=DISPONIBLES-1 WHERE NOMBRE_PRODUCTO='"+producto.getNombre()+"'"; 
+		
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();

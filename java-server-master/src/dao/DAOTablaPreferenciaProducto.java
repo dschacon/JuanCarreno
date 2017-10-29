@@ -87,7 +87,7 @@ public class DAOTablaPreferenciaProducto {
 			String descripcion = rs.getString("DESCRIPCION");
 			String traduccion = rs.getString("TRADUCCION");
 			String categoria = rs.getString("CATEGORIA");	
-			productos.add(new Producto(name, null, descripcion, traduccion, null, null, null, categoria));
+			productos.add(new Producto(name, null, descripcion, traduccion, null, null, null, categoria, null));
 		}
 
 		return productos;

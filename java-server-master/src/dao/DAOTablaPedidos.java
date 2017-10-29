@@ -83,9 +83,34 @@ public class DAOTablaPedidos {
 			float costoTotal = rs.getFloat("COSTO_TOTAL");
 			Date fecha = rs.getDate("FECHA");
 			int idUsuario = rs.getInt("ID_USUARIO");
-			pedidos.add(new Pedido(id, costoTotal, fecha, idUsuario,null));
+			String entrega = rs.getString("ENTREGADO");
+			Pedido ppedido=new Pedido(id, costoTotal, fecha, idUsuario,null,null);
+			ppedido.setEntregado(desicion(entrega));;
+			pedidos.add(ppedido);
 		}
 		return pedidos;
+	}
+	
+	/**
+	 * Metodo que, usando la conexión a la base de datos, saca todos los pedidos de la base de datos
+	 * <b>SQL Statement:</b> SELECT * FROM PEDIDO;
+	 * @return Arraylist con los pedidos de la base de datos.
+	 * @throws SQLException - Cualquier error que la base de datos arroje.
+	 * @throws Exception - Cualquier error que no corresponda a la base de datos
+	 */
+	public Integer darPedidoIdUsuario(int id) throws SQLException, Exception {
+		
+		Integer idUsuario=null;
+		String sql = "SELECT * FROM PEDIDO WHERE ID_USUARIO="+id;
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+		 idUsuario = rs.getInt("PEDIDO_ID");
+		}
+		return idUsuario;
 	}
 
 	/**
@@ -110,10 +135,21 @@ public class DAOTablaPedidos {
 			float costoTotal = rs.getFloat("COSTO_TOTAL");
 			Date fecha = rs.getDate("FECHA");
 			int idUsuario = rs.getInt("ID_USUARIO");
-			pedido = new Pedido(idP, costoTotal, fecha, idUsuario, null);
+			pedido = new Pedido(idP, costoTotal, fecha, idUsuario, null,null);
+			String entrega = rs.getString("ENTREGADO");
+			pedido.setEntregado(desicion(entrega));
 		}
 
 		return pedido;
+	}
+	
+	
+	private boolean desicion(String ab){
+		if(ab.equals("T")){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	/**
@@ -126,21 +162,26 @@ public class DAOTablaPedidos {
 	 */
 	public void addPedido(Pedido pedido) throws SQLException, Exception {
 
-		
-		String fecha = pedido.getFecha().toString();
-		String ano= fecha.substring(2,3);
-		String fechainco=fecha.replace('-', '/');
-		String completa = ano+fechainco.substring(4);
 		String sql = "INSERT INTO PEDIDO VALUES (";
 		sql += pedido.getId() + ",";
 		sql += pedido.getCostoTotal() + ",";
-		sql += pedido.getIdUsuario() + ",'";
-		sql += completa + "')";
-		System.out.print("la fecha es:"+pedido.getFecha());
+		sql += pedido.getIdUsuario() + ",SYSDATE,'F')";
+		 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
-
+		
+		Integer pedidoID = darPedidoIdUsuario(pedido.getIdUsuario()); 
+		
+		if(pedido.getMenu()!=null){
+			sql = "INSERT INTO MENU_PEDIDO VALUES ('"+pedido.getMenu().getNombre()+"','"+pedido.getMenu().getRestaurante()+"',"+pedidoID+")";
+		}else{
+			sql ="INSERT INTO PEDIDO_PRODUCTO VALUES ("+pedidoID+",'"+pedido.getProducto().getNombre()+"','"+pedido.getRestaurante()+"')";
+		}
+		
+		prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
 	}
 	
 	/**
@@ -155,16 +196,12 @@ public class DAOTablaPedidos {
 
 		Pedido pedido = buscarPedidoPorId(id);
 		pedido.setEntregado(true);
-//		String sql = "UPDATE RESTAURANTE SET ";
-//		sql += "COSTO_TOTAL=" + pedido.getCostoTotal() + ",";
-//		sql += "FECHA=" + pedido.getFecha() + ",";
-//		sql += "ID_USUARIO=" + pedido.getIdUsuario() + ",";
-//		sql += " WHERE PEDIDO_ID = " + pedido.getId();
-//
-//
-//		PreparedStatement prepStmt = conn.prepareStatement(sql);
-//		recursos.add(prepStmt);
-//		prepStmt.executeQuery();
+		 ; 
+		String sql = "UPDATE PEDIDO SET ENTREGADO='T'WHERE PEDIDO_ID="+id;
+	
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
 		return pedido;
 	}
 

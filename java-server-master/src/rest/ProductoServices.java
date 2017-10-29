@@ -6,6 +6,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.RotondAndesTm;
+import vos.Pedido;
 import vos.Producto;
 import vos.Restaurante;
 import vos.Usuario;
@@ -77,8 +79,34 @@ public class ProductoServices {
 				String error = "No existe un restaurante con el nombre: "+nombreRestaurante;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
 			}else{
-			tm.addProducto(producto);
+			tm.addProducto(producto,restaurante);
 			}
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(producto).build();
+	}
+	
+	 /**
+     * Metodo que expone servicio REST usando PUT que actualiza el pedido que recibe en Json
+     * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/pedidos
+     * @param pedido - pedido a actualizar. 
+     * @return Json con el pedido que actualizo o Json con el error que se produjo
+     */
+	@PUT
+	@Path( "{nombre}" )
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateProducto(@PathParam( "nombre" ) String nombre ) {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
+		Producto producto;
+		try {
+			producto = tm.buscarProductoPorName(nombre);
+			if(producto==null){
+				String error = "No existe un producto con el : "+nombre ;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}
+		tm.updateProducto(producto);
+			
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

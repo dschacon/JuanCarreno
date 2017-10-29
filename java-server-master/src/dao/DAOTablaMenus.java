@@ -79,7 +79,7 @@ public class DAOTablaMenus {
 			String restaurante = rs.getString("RESTAURANTE");
 			int costoProduccion = rs.getInt("COSTO_PRODUCCION");
 			int precioVenta = rs.getInt("PRECIO_VENTA");
-			menus.add(new Menu(name, restaurante, costoProduccion, precioVenta));
+			menus.add(new Menu(name, restaurante, costoProduccion, precioVenta,0,0,0));
 		}
 		return menus;
 	}
@@ -92,8 +92,8 @@ public class DAOTablaMenus {
 	 * @throws SQLException - Cualquier error que la base de datos arroje.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public ArrayList<Menu> buscarMenusPorName(String name) throws SQLException, Exception {
-		ArrayList<Menu> menus = new ArrayList<Menu>();
+	public Menu buscarMenusPorName(String name) throws SQLException, Exception {
+		Menu menus = null;
 
 		String sql = "SELECT * FROM MENU WHERE NOMBRE ='" + name + "'";
 
@@ -106,7 +106,10 @@ public class DAOTablaMenus {
 			String restaurante = rs.getString("RESTAURANTE");
 			int costoProduccion = rs.getInt("COSTO_PRODUCCION");
 			int precioVenta = rs.getInt("PRECIO_VENTA");
-			menus.add(new Menu(nombre, restaurante, costoProduccion, precioVenta));
+			int disponible = rs.getInt("DISPONIBLE");
+			int maximo = rs.getInt("MAXIMO");
+			int tiempo = rs.getInt("TIEMPO_PREPARACION");
+			menus = new Menu(nombre, restaurante, costoProduccion, precioVenta,disponible,maximo,tiempo);
 		}
 
 		return menus;
@@ -126,12 +129,12 @@ public class DAOTablaMenus {
 		sql += menu.getRestaurante() + "','";
 		sql += menu.getNombre() + "',";
 		sql += menu.getCostoProduccion() + ",";
-		sql += menu.getPrecioVenta() +")";
+		sql += menu.getPrecioVenta()+","+menu.getDisponibles()+","+menu.getMaximo()+","+ menu.getTiempoPreparacion()+")";
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
-
+		
 	}
 	
 	/**
@@ -144,13 +147,8 @@ public class DAOTablaMenus {
 	 */
 	public void updateMenu(Menu menu) throws SQLException, Exception {
 
-		String sql = "UPDATE MENU SET ";
-		sql += "RESTAURANTE='" + menu.getRestaurante() + "',";
-		sql += "COSTO_PRODUCCION=" + menu.getCostoProduccion() + "',";
-		sql += "PRECIO_VENTA=" + menu.getPrecioVenta() + ",";
-		sql += " WHERE NOMBRE = " + menu.getNombre();
-
-
+		String sql = "UPDATE RESTAURANTE_PRODUCTO SET DISPONIBLES=DISPONIBLES-1 WHERE NOMBRE_PRODUCTO='"+menu.getNombre()+"'"; 
+		
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();

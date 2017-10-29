@@ -2,6 +2,8 @@
 package rest;
 
 
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -21,6 +23,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
+import vos.Menu;
 import vos.Pedido;
 import vos.Producto;
 import vos.Video;
@@ -87,16 +90,28 @@ public class PedidoServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addPedido(Pedido pedido) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
+		Date fecha =(new Date()); 
 		try {
 			Producto producto = tm.buscarProductoPorName(pedido.getNombreProducto());
+			Menu menu= tm.buscarMenusPorName(pedido.getNombreProducto());
 			if(tm.buscarUsuarioPorId(pedido.getIdUsuario())==null){
 				String error = "No existe un usuario con el id: "+pedido.getIdUsuario() ;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
-			}else if(producto==null){
-				String error = "No existe un prosucto con el nombre de : "+pedido.getNombreProducto() ;
+			}else if(producto==null && menu==null){
+				String error = "No existe un producto o menu con el nombre de : "+pedido.getNombreProducto() ;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
 			}else{
-				pedido.setProducto(producto);
+				if(producto==null){
+					pedido.setMenu(menu);
+					pedido.setCostoTotal(menu.getPrecioVenta());
+					tm.updateMenu(menu);
+				}else{
+					pedido.setProducto(producto);
+					pedido.setCostoTotal(producto.getPrecioVenta());
+					tm.updateProducto(producto);
+				}
+				pedido.setFecha(fecha);
+				pedido.setId(1);
 				tm.addPedido(pedido);
 			}
 		} catch (Exception e) {

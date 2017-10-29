@@ -1214,4 +1214,343 @@ public class RotondAndesTm {
 			}
 		}
 	}
+	
+
+
+	public List<Usuario> darUsuarios() throws Exception{
+		List<Usuario> usuarios;
+		DAOTablaUsuarios daoUsuarios = new DAOTablaUsuarios();
+		try 
+		{
+			this.conn = darConexion();
+			daoUsuarios.setConn(conn);
+			usuarios = daoUsuarios.darUsuarios();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoUsuarios.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return usuarios;
+	}
+
+	public List<EquivalenciaIngrediente> darEquivalenciasIngrediente() throws Exception{
+		List<EquivalenciaIngrediente> equivalencias;
+		DAOTablaEquivalenciaIngrediente daoEquivalencia = new DAOTablaEquivalenciaIngrediente();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			equivalencias = daoEquivalencia.darEquivalencias();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return equivalencias;
+	}
+
+	public List<EquivalenciaIngrediente> buscarEquivalenciasIngredientePorName(String name) throws Exception{
+		List<EquivalenciaIngrediente> equivalencias;
+		DAOTablaEquivalenciaIngrediente daoEquivalencia = new DAOTablaEquivalenciaIngrediente();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			equivalencias = daoEquivalencia.buscarEquivalenciasPorNombre(name);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return equivalencias;
+	}
+
+	public void addEquivalenciaIngrediente(EquivalenciaIngrediente equivalencia) throws Exception{
+		DAOTablaEquivalenciaIngrediente daoEquivalencia = new DAOTablaEquivalenciaIngrediente();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			daoEquivalencia.addEquivalencia(equivalencia);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	public void updateEquivalenciaIngrediente(EquivalenciaIngrediente equivalencia) throws Exception {
+		DAOTablaEquivalenciaIngrediente daoEquivalencia = new DAOTablaEquivalenciaIngrediente();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			daoEquivalencia.updateEquivalencia(equivalencia);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	public void deleteEquivalenciaIngrediente(EquivalenciaIngrediente equivalencia) throws Exception {
+		DAOTablaEquivalenciaIngrediente daoEquivalencia = new DAOTablaEquivalenciaIngrediente();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			daoEquivalencia.deleteEquivalencia(equivalencia);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	public List<EquivalenciaProducto> darEquivalenciasProducto() throws Exception {
+		List<EquivalenciaProducto> equivalencias;
+		DAOTablaEquivalenciaProducto daoEquivalencia = new DAOTablaEquivalenciaProducto();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			equivalencias = daoEquivalencia.darEquivalencias();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return equivalencias;
+	}
+
+	public List<EquivalenciaProducto> buscarEquivalenciasProductoPorName(String name)throws Exception{
+		List<EquivalenciaProducto> equivalencia;
+		DAOTablaEquivalenciaProducto daoEquivalencia = new DAOTablaEquivalenciaProducto();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			equivalencia = daoEquivalencia.buscarEquivalenciasPorNombre(name);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return equivalencia;
+	}
+
+	public void addEquivalenciaProducto(EquivalenciaProducto equivalencia) throws Exception {
+		DAOTablaEquivalenciaProducto daoEquivalencia = new DAOTablaEquivalenciaProducto();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			daoEquivalencia.addEquivalencia(equivalencia);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	public void updateEquivalenciaProducto(EquivalenciaProducto equivalencia) throws Exception{
+		DAOTablaEquivalenciaProducto daoEquivalencia = new DAOTablaEquivalenciaProducto();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			daoEquivalencia.updateEquivalencia(equivalencia);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	public void deleteEquivalenciaProducto(EquivalenciaProducto equivalencia) throws Exception{
+		DAOTablaEquivalenciaProducto daoEquivalencia = new DAOTablaEquivalenciaProducto();
+		try 
+		{
+			this.conn = darConexion();
+			daoEquivalencia.setConn(conn);
+			daoEquivalencia.deleteEquivalencia(equivalencia);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoEquivalencia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
 }
+
+

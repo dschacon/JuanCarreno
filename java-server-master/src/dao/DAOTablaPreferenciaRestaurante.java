@@ -59,11 +59,9 @@ public class DAOTablaPreferenciaRestaurante {
 	
 	public void addPreferencia (PreferenciaRestaurante restaurante) throws SQLException, Exception {
 		
-	
 		String sql = "INSERT INTO PREFERENCIA_RESTAURANTE VALUES (";
 		sql += restaurante.getNumeroUsuario() + ",'";
 		sql += restaurante.getNombreRestaurante()+"')";
-
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		

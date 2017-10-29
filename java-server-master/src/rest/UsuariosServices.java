@@ -1,3 +1,4 @@
+
 package rest;
 
 
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import tm.RotondAndesTm;
+import vos.Restaurante;
 import vos.Usuario;
 
 @Path("usuario")
@@ -35,6 +37,24 @@ public class UsuariosServices {
 		return "{ \"ERROR\": \""+ e.getMessage() + "\"}" ;
 	}
 	
+	/**
+	 * Metodo que expone servicio REST usando GET que da todos los usuarios de la base de datos.
+	 * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/usuario
+	 * @return Json con todos los usuarios de la base de datos o json con 
+     * el error que se produjo
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getUsuarios() {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
+		List<Usuario> usuarios;
+		try {
+			usuarios = tm.darUsuarios();
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(usuarios).build();
+	}
 
 	 /**
      * Metodo que expone servicio REST usando GET que busca el video con el id que entra como parametro
@@ -46,7 +66,7 @@ public class UsuariosServices {
 	@GET
 	@Path( "{id: \\d+}" )
 	@Produces( { MediaType.APPLICATION_JSON } )
-	public Response getVideo( @PathParam( "id" ) Integer id )
+	public Response getUsuario( @PathParam( "id" ) Integer id )
 	{
 		RotondAndesTm tm = new RotondAndesTm( getPath( ) );
 		try

@@ -1,3 +1,4 @@
+
 package rest;
 
 
@@ -91,6 +92,7 @@ public class PreferenciaRestauranteServices {
 				String error = "No existe un usuario con el id: "+id;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
 			}else{
+			preferencia.setNumeroUsuario(id);
 			tm.addPreferenciaRestaurante(preferencia);
 			}
 		} catch (Exception e) {

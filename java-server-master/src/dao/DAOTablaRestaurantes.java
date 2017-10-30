@@ -1,3 +1,4 @@
+
 package dao;
 
 
@@ -14,7 +15,6 @@ import vos.*;
  * @author Juan Carreño
  */
 public class DAOTablaRestaurantes {
-
 
 	/**
 	 * Arraylits de recursos que se usan para la ejecuciÃ³n de sentencias SQL

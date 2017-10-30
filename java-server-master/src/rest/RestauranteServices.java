@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.RotondAndesTm;
+import vos.Producto;
 import vos.Restaurante;
 import vos.Usuario;
 
@@ -128,18 +129,25 @@ public class RestauranteServices {
      * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/restaurantes
      * @param restaurante - restaurante a actualizar. 
      * @return Json con el restaurante que actualizo o Json con el error que se produjo
+     * @throws Exception 
      */
 	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Path( "{nombre}" )
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateRestaurante(Restaurante restaurante) {
+	public Response updateRestaurante( @PathParam( "nombre" ) String nombre) throws Exception {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
+		Producto producto = tm.buscarProductoPorName(nombre);
 		try {
-			tm.updateRestaurante(restaurante);
+			if(producto==null){
+				String error = "No existe un producto con ese nombre";
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}
+			tm.updateRestaurante(nombre);
+			producto = tm.buscarProductoPorName(nombre);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(restaurante).build();
+		return Response.status(200).entity(producto).build();
 	}
 	
     /**

@@ -85,6 +85,24 @@ public class DAOTablaProductos {
 	}
 
 
+	public String darNombreRestaurante( String nombre) throws SQLException, Exception {
+
+		String sql = "SELECT RESTAURANTE_PRODUCTO.NOMBRE_RESTAURANTE AS NOMBRE FROM PRODUCTO JOIN RESTAURANTE_PRODUCTO ON PRODUCTO.NOMBRE= RESTAURANTE_PRODUCTO.NOMBRE_PRODUCTO WHERE NOMBRE='"+nombre+"'";
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		String restaurante= null; 
+		
+		while (rs.next()) {
+			restaurante = rs.getString("NOMBRE");
+		}
+		return restaurante ;
+	}
+	
+	
+	
+	
 	/**
 	 * Metodo que busca el/los productos con el nombre que entra como parametro.
 	 * @param name - Nombre de el/los productos a buscar

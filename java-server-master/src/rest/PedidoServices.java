@@ -2,8 +2,10 @@
 package rest;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -25,6 +27,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import tm.RotondAndesTm;
 import vos.Menu;
 import vos.Pedido;
+import vos.PedidoMesa;
 import vos.Producto;
 import vos.Video;
 
@@ -71,6 +74,13 @@ public class PedidoServices {
 		try
 		{
 			Pedido p = tm.buscarPedidoPorId( id );
+			Producto produ = tm.buscarProductoPorName(p.getNombreProducto());
+			Menu menu = tm.buscarMenusPorName(p.getNombreProducto());
+			if(produ!=null){
+				p.setProducto(produ);
+			}else{
+				p.setMenu(menu);
+			}
 			return Response.status( 200 ).entity( p ).build( );			
 		}
 		catch( Exception e )
@@ -104,14 +114,75 @@ public class PedidoServices {
 				if(producto==null){
 					pedido.setMenu(menu);
 					pedido.setCostoTotal(menu.getPrecioVenta());
+					try{
 					tm.updateMenu(menu);
+					}catch (Exception e) {
+					String error = "No hay existencias de: "+pedido.getNombreProducto() ;
+					return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+					}
+					pedido.setRestaurante(menu.getRestaurante());
 				}else{
 					pedido.setProducto(producto);
 					pedido.setCostoTotal(producto.getPrecioVenta());
+					try{
 					tm.updateProducto(producto);
+					}catch (Exception e) {
+					String error = "No hay existencias de: "+pedido.getNombreProducto() ;
+					return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+					}
+					
+				}
+				pedido.setRestaurante(tm.buscarRestauranteProducto(pedido.getNombreProducto()));
+				pedido.setFecha(fecha);
+				pedido.setId(pedido.getId());
+				tm.addPedido(pedido);
+			}
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(pedido).build();
+	}
+	
+	@POST
+	@Path( "{equivalencia}" )
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addPedidoEquivalencia(Pedido pedido) {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
+		Date fecha =(new Date()); 
+		ArrayList<String> equivalencias =pedido.getEquivalencias(); 
+		try {
+			Producto producto = tm.buscarProductoPorName(pedido.getNombreProducto());
+			Menu menu= tm.buscarMenusPorName(pedido.getNombreProducto());
+			if(tm.buscarUsuarioPorId(pedido.getIdUsuario())==null){
+				String error = "No existe un usuario con el id: "+pedido.getIdUsuario() ;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else if(producto==null && menu==null){
+				String error = "No existe un producto o menu con el nombre de : "+pedido.getNombreProducto() ;
+				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+			}else{
+				if(producto==null){
+					pedido.setMenu(menu);
+					pedido.setCostoTotal(menu.getPrecioVenta());
+					try{
+					tm.updateMenu(menu);
+					}catch (Exception e) {
+						String error = "No hay existencias de: "+pedido.getNombreProducto() ;
+						return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+					}
+				}else{
+					pedido.setProducto(producto);
+					pedido.setCostoTotal(producto.getPrecioVenta());
+					try{
+					tm.updateProducto(producto);
+					}catch (Exception e) {
+					String error = "No hay existencias de: "+pedido.getNombreProducto() ;
+					return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+					}
 				}
 				pedido.setFecha(fecha);
 				pedido.setId(1);
+				pedido.setEquivalencias(equivalencias);
 				tm.addPedido(pedido);
 			}
 		} catch (Exception e) {
@@ -120,6 +191,52 @@ public class PedidoServices {
 		return Response.status(200).entity(pedido).build();
 	}
 
+	
+	
+	
+	@POST
+	@Path( "{id: \\d+}" )
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addPedidoMesa(PedidoMesa pedido) {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
+		Date fecha =(new Date()); 
+		ArrayList<String> productos =pedido.getProductos();
+		ArrayList<Producto> listProductos = new ArrayList<>(); 
+		ArrayList<Menu> listMenu = new ArrayList<>();
+		try{
+			Iterator<String> iter = productos.iterator();
+			while(iter.hasNext()){
+				String buscar= iter.next();
+				String lresta = tm.buscarRestauranteProducto(buscar);
+				Pedido pp  = new Pedido(1, 0,fecha, pedido.getIdUsuario(),buscar,lresta);
+				Producto pprodu = tm.buscarProductoPorName(buscar);
+				Menu lmenu=tm.buscarMenusPorName(buscar);
+				if(lmenu!=null){
+					listMenu.add(lmenu);
+				}else{
+					listProductos.add(pprodu);
+				}
+				this.addPedido(pp);
+				pedido.setId(pp.getId());
+			}
+			pedido.setVoMenus(listMenu);
+			pedido.setVoProductos(listProductos);
+			pedido.setCostoTotal();
+			pedido.setFecha(fecha);
+			pedido.setNumProductos();
+			tm.addPedidoMesa(pedido);
+			
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(pedido).build();
+	}
+	
+	
+	
+	
+	
     /**
      * Metodo que expone servicio REST usando PUT que actualiza el pedido que recibe en Json
      * <b>URL: </b> http://"ip o nombre de host":8080/RotondAndes/rest/pedidos
@@ -138,6 +255,31 @@ public class PedidoServices {
 				String error = "No existe un pedido con el id: "+id ;
 				return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
 			}
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(pedido).build();
+	}
+	
+	
+	@PUT
+	@Path( "{Nombre}" )
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updatePedidoMesa(PedidoMesa pedido ) {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
+		try {
+		PedidoMesa lpedido = tm.buscarPedidoMesaId(pedido.getId());
+		
+			for(int i=lpedido.getIdUsuario();i>0;i--){
+			Pedido Cpedido = tm.updatePedido(pedido.getId()-(i-1));
+				if(Cpedido==null){
+					String error = "No existe un pedido con el id: "+ (pedido.getId()-(i-1));
+					return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+				}
+			}
+		
+			
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

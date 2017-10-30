@@ -1,6 +1,7 @@
 package vos;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class Pedido
 	private Producto producto;
 	
 	private Menu menu;
+	
+	private ArrayList<String> equivalencias ;
 	
 	public Menu getMenu() {
 		return menu;
@@ -52,6 +55,17 @@ public class Pedido
 	}
 	
 	
+	
+	public ArrayList<String> getEquivalencias() {
+		return equivalencias;
+	}
+
+
+	public void setEquivalencias(ArrayList<String> equivalencias) {
+		this.equivalencias = equivalencias;
+	}
+
+
 	public String getRestaurante() {
 		return restaurante;
 	}

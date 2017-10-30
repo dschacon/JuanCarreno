@@ -145,16 +145,10 @@ public class DAOTablaRestaurantes {
 	 * @throws SQLException - Cualquier error que la base de datos arroje. No pudo actualizar el restaurante.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public void updateRestaurante(Restaurante restaurante) throws SQLException, Exception {
+	public void updateRestaurante(String producto) throws SQLException, Exception {
 
-		String sql = "UPDATE RESTAURANTE SET ";
-		sql += "TIPO_COMIDA='" + restaurante.getTipoComida() + "',";
-		sql += "PAGINAWEB='" + restaurante.getPaginaWeb() + "',";
-		sql += "REPRESENTANTE='" + restaurante.getRepresentante() + "',";
-		sql += "NOMBREZONA='" + restaurante.getNombreZona() + "',";
-		sql += " WHERE NOMBRE = " + restaurante.getNombre();
-
-
+		String sql = "UPDATE RESTAURANTE_PRODUCTO SET DISPONIBLES=MAXIMO WHERE NOMBRE_PRODUCTO='"+producto+"'";
+		
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();

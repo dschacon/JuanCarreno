@@ -101,14 +101,14 @@ public class DAOTablaPedidos {
 	public Integer darPedidoIdUsuario(int id) throws SQLException, Exception {
 		
 		Integer idUsuario=null;
-		String sql = "SELECT * FROM PEDIDO WHERE ID_USUARIO="+id;
+		String sql = "SELECT MAX(PEDIDO_ID) MAXIMO FROM PEDIDO WHERE ID_USUARIO="+id;
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 
 		while (rs.next()) {
-		 idUsuario = rs.getInt("PEDIDO_ID");
+		 idUsuario = rs.getInt("MAXIMO");
 		}
 		return idUsuario;
 	}
@@ -123,7 +123,7 @@ public class DAOTablaPedidos {
 	public Pedido buscarPedidoPorId(int id) throws SQLException, Exception 
 	{
 		Pedido pedido = null;
-
+		
 		String sql = "SELECT * FROM PEDIDO WHERE PEDIDO_ID =" + id;
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
@@ -136,12 +136,51 @@ public class DAOTablaPedidos {
 			Date fecha = rs.getDate("FECHA");
 			int idUsuario = rs.getInt("ID_USUARIO");
 			pedido = new Pedido(idP, costoTotal, fecha, idUsuario, null,null);
+			sql = "SELECT * FROM PEDIDO JOIN MENU_PEDIDO ON PEDIDO.PEDIDO_ID=MENU_PEDIDO.ID_PEDIDO WHERE PEDIDO.PEDIDO_ID =" + id;
+
+			prepStmt = conn.prepareStatement(sql);
+			recursos.add(prepStmt);
+			rs = prepStmt.executeQuery();
+			
+			String producto=null;
+			String menu=null;
+			String restaurante=null;
+			
+
+			if(rs.next()) {
+				 menu = rs.getString("NOMBRE_MENU");
+				restaurante = rs.getString("NOMBRE_RESTAURANTE");
+				
+				
+			}else{
+				sql = "SELECT * FROM PEDIDO JOIN PEDIDO_PRODUCTO ON PEDIDO.PEDIDO_ID= PEDIDO_PRODUCTO.ID_PEDIDO WHERE PEDIDO.PEDIDO_ID =" + id;
+				
+				prepStmt = conn.prepareStatement(sql);
+				recursos.add(prepStmt);
+				rs = prepStmt.executeQuery();
+			
+				if(rs.next()){
+					 producto  = rs.getString("NOMBRE_PRODUCTO");
+					restaurante  = rs.getString("NOMBRE_RESTAURANTE");
+				}
+			}
 			String entrega = rs.getString("ENTREGADO");
 			pedido.setEntregado(desicion(entrega));
+			pedido.setRestaurante(restaurante);
+			if(menu!=null){
+				pedido.setNombreProducto(menu);
+				
+			}else{
+				pedido.setNombreProducto(producto);
+
+			}
+			
 		}
 
 		return pedido;
 	}
+	
+
 	
 	
 	private boolean desicion(String ab){
@@ -172,6 +211,7 @@ public class DAOTablaPedidos {
 		prepStmt.executeQuery();
 		
 		Integer pedidoID = darPedidoIdUsuario(pedido.getIdUsuario()); 
+		pedido.setId(pedidoID);
 		
 		if(pedido.getMenu()!=null){
 			sql = "INSERT INTO MENU_PEDIDO VALUES ('"+pedido.getMenu().getNombre()+"','"+pedido.getMenu().getRestaurante()+"',"+pedidoID+")";
@@ -221,6 +261,36 @@ public class DAOTablaPedidos {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
+	}
+
+	public void addPedidoMesa(PedidoMesa pedido) throws SQLException {
+		
+		
+		String sql = "INSERT INTO PEDIDO_MESA VALUES("+pedido.getIdMesa()+","+pedido.getId()+",SYSDATE,"+pedido.getCostoTotal()+","+pedido.getNumProductos()+")"; 
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
+
+	public PedidoMesa buscarPedidoMesaPorId(int id) throws SQLException {
+		
+		String sql = "SELECT * FROM PEDIDO_MESA where ID_PEDIDO="+id;
+	
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		PedidoMesa rta = null;
+		
+		if(rs.next()){
+			int productos = rs.getInt("PRODUCTOS");
+			int idMesa = rs.getInt("ID_MESA");
+			rta=new PedidoMesa(id, productos, null , idMesa);
+		}
+		
+		return rta;
+		
 	}
 
 }

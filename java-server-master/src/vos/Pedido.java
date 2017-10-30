@@ -27,6 +27,7 @@ public class Pedido
 	
 	private Menu menu;
 	
+	@JsonProperty(value="equivalencia")
 	private ArrayList<String> equivalencias ;
 	
 	public Menu getMenu() {

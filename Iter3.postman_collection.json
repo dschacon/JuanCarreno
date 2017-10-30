@@ -1,0 +1,113 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Iter3",
+		"_postman_id": "9c4a07a5-00a2-f3d1-86a5-64adbb6d8221",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/pedidos",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/pedidos",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"idUsuario\":\"2016\",\n\t\"producto\":\"ComboPapitas\"\n}"
+				},
+				"description": "Rq9"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/pedidos/101",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/pedidos/101",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": "rq10"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/restaurantes/Ensalada",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/restaurantes/Ensalada",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": "RQ13"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/pedidos/equivalencia",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/pedidos/equivalencia",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"idUsuario\":\"2016\",\n\t\"producto\":\"ComboPapitas\",\n\t\"restaurante\":\"Randys\",\n\t\"equivalencias\":[\"queso\",\"coca-cola\",\"adicionPapas\"]\n}"
+				},
+				"description": "qu14"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/pedidos/33",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/pedidos/33",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"idUsuario\":\"1234\",\n\t\"productos\":[\"Ensalada\",\"ComboPapitas\"],\n\t\"idPedido\":1,\n\t\"idMesa\":1\n}"
+				},
+				"description": "RQ15"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/VideoAndes/rest/pedidos/mesa",
+			"request": {
+				"url": "http://localhost:8080/VideoAndes/rest/pedidos/mesa",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"idPedido\":104\n}"
+				},
+				"description": "RQ16"
+			},
+			"response": []
+		}
+	]
+}

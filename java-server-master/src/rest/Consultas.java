@@ -69,17 +69,24 @@ public class Consultas {
 
 
 	@GET
-	@Path( "consulta3" )
+	@Path( "consulta3/{id: \\d+}" )
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getConsulta11() {
+	public Response getConsulta11( @PathParam( "id" ) Integer id ) throws Exception {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Consulta11> consultas;
-		try {
-			consultas = tm.darConsulta11();
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
+		ArrayList<Consulta11> clientes = new ArrayList<>();
+		Usuario u = tm.buscarUsuarioPorId(id);
+		if(u.getRol().equals("Gerente")) {
+			try {
+				clientes = (ArrayList<Consulta11>) tm.darConsulta11();
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
 		}
-		return Response.status(200).entity(consultas).build();
+		else {
+			String error = "El usuario con el id: "+id+" no es un gerente";
+			return Response.status(500).entity("{ \"ERROR\": \""+ error + "\"}").build();
+		}
+		return Response.status(200).entity(clientes).build();
 	}
 
 	@GET

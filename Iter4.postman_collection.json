@@ -73,38 +73,6 @@
 			"response": []
 		},
 		{
-			"name": "Consulta11",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\n}"
-				},
-				"url": {
-					"raw": "http://localhost:8080/VideoAndes/rest/consultas/consulta3",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"VideoAndes",
-						"rest",
-						"consultas",
-						"consulta3"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
 			"name": "Consulta10",
 			"request": {
 				"method": "POST",
@@ -163,6 +131,72 @@
 						"rest",
 						"consultas",
 						"consulta1",
+						"1"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta11 con id correcto",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/VideoAndes/rest/consultas/consulta3/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"VideoAndes",
+						"rest",
+						"consultas",
+						"consulta3",
+						"0"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta11 con id incorrecto",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/VideoAndes/rest/consultas/consulta3/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"VideoAndes",
+						"rest",
+						"consultas",
+						"consulta3",
 						"1"
 					]
 				},

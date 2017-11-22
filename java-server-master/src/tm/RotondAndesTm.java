@@ -1641,6 +1641,130 @@ public class RotondAndesTm {
 		}
 
 	}
+
+	public List<Consulta9> darConsulta9(Consulta9 consulta) throws Exception {
+		List<Consulta9> consultas;
+		DAOConsultas daoConsultas = new DAOConsultas();
+		try 
+		{
+			this.conn = darConexion();
+			daoConsultas.setConn(conn);
+			consultas = daoConsultas.darConsulta9(consulta);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoConsultas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return consultas;
+	}
+
+	public List<Consulta10> darConsulta10(Consulta10 consulta) throws Exception {
+		List<Consulta10> consultas;
+		DAOConsultas daoConsultas = new DAOConsultas();
+		try 
+		{
+			this.conn = darConexion();
+			daoConsultas.setConn(conn);
+			consultas = daoConsultas.darConsulta10(consulta);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoConsultas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return consultas;
+	}
+
+	public List<Consulta11> darConsulta11() throws Exception{
+		List<Consulta11> consultas;
+		DAOConsultas daoConsultas = new DAOConsultas();
+		try 
+		{
+			this.conn = darConexion();
+			daoConsultas.setConn(conn);
+			consultas = daoConsultas.darConsulta11();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoConsultas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return consultas;
+	}
+
+	public List<Consulta12> darConsulta12() throws Exception {
+		List<Consulta12> consultas;
+		DAOConsultas daoConsultas = new DAOConsultas();
+		try 
+		{
+			this.conn = darConexion();
+			daoConsultas.setConn(conn);
+			consultas = daoConsultas.darConsulta12();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoConsultas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return consultas;
+	}
 }
 
 

@@ -1,0 +1,174 @@
+{
+	"info": {
+		"name": "Iter4",
+		"_postman_id": "88d05668-2321-ee39-586e-8dfb3dadae10",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Consulta12 con id correcto",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/VideoAndes/rest/consultas/consulta4/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"VideoAndes",
+						"rest",
+						"consultas",
+						"consulta4",
+						"0"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta12 con id incorrecto",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/VideoAndes/rest/consultas/consulta4/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"VideoAndes",
+						"rest",
+						"consultas",
+						"consulta4",
+						"1"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta11",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/VideoAndes/rest/consultas/consulta3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"VideoAndes",
+						"rest",
+						"consultas",
+						"consulta3"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta10",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fecha1\":\"10/10/2017\",\n\t\"fecha2\":\"11/11/2017\",\n\t\"nombreRestaurante\":\"YES THAI RESTAURANT PTY LTD\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/VideoAndes/rest/consultas/consulta2/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"VideoAndes",
+						"rest",
+						"consultas",
+						"consulta2",
+						"1"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta9",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fecha1\":\"10/10/2017\",\n\t\"fecha2\":\"11/11/2017\",\n\t\"nombreRestaurante\":\"YES THAI RESTAURANT PTY LTD\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/VideoAndes/rest/consultas/consulta1/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"VideoAndes",
+						"rest",
+						"consultas",
+						"consulta1",
+						"1"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

@@ -68,18 +68,20 @@ public class DAOTablaProductos {
 	public ArrayList<Producto> darProductos() throws SQLException, Exception {
 		ArrayList<Producto> productos = new ArrayList<Producto>();
 
-		String sql = "SELECT * FROM PRODUCTO";
+		String sql = "SELECT * FROM PRODUCTOS2";
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 
-		while (rs.next()) {
+		boolean algo = true;
+		while (rs.next() && algo) {
 			String name = rs.getString("NOMBRE");
 			String descripcion = rs.getString("DESCRIPCION");
 			String traduccion = rs.getString("TRADUCCION");
 			String categoria = rs.getString("CATEGORIA");		
 			productos.add(new Producto(name, null, descripcion, traduccion, null, null, null, categoria,null));
+			algo = false;
 		}
 		return productos;
 	}

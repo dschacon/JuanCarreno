@@ -36,6 +36,18 @@ public class ProductoServices {
 	}
 	
 
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getProductos() {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
+		List<Producto> productos;
+		try {
+			productos = tm.darProductos();
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(productos).build();
+	}
 
     /**
      * Metodo que expone servicio REST usando GET que busca el video con el nombre que entra como parametro

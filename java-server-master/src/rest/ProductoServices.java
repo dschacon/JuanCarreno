@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.RotondAndesTm;
+import vos.ListaProductos;
 import vos.Pedido;
 import vos.Producto;
 import vos.Restaurante;
@@ -40,7 +41,7 @@ public class ProductoServices {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getProductos() {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
-		List<Producto> productos;
+		ListaProductos productos;
 		try {
 			productos = tm.darProductos();
 		} catch (Exception e) {

@@ -11,13 +11,7 @@ import javax.jms.DeliveryMode;
 import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueReceiver;
-import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.jms.Topic;
@@ -35,51 +29,43 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.rabbitmq.jms.admin.RMQConnectionFactory;
 import com.rabbitmq.jms.admin.RMQDestination;
 
 import dtm.RotondAndesDistributed;
 import vos.ExchangeMsg;
-import vos.ListaProductos;
 import vos.ListaUtilidad;
-import vos.Producto;
-import vos.ProductoIter5;
 import vos.Utilidad;
 
-
-
-public class AllProductosMDB implements MessageListener, ExceptionListener 
+public class UtilidadMDB implements MessageListener, ExceptionListener 
 {
 	public final static int TIME_OUT = 50;
-	private final static String APP = "app1";
-	
-	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicAllVideos";
-	private final static String LOCAL_TOPIC_NAME = "java:global/RMQAllVideosLocal";
+	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicAllTerrorVideos";
+	private final static String TOPIC_NAME = "java:global/RMQTopicTerrorVideos";
+	private static final String APP = "app1";
 	
 	private final static String REQUEST = "REQUEST";
 	private final static String REQUEST_ANSWER = "REQUEST_ANSWER";
-	
+
 	private TopicConnection topicConnection;
-	private TopicSession topicSession;
 	private Topic globalTopic;
-	private Topic localTopic;
+	private TopicSession topicSession;
+	private Topic topic;
 	
-	private List<ProductoIter5> answer = new ArrayList<ProductoIter5>();
-	private List<Utilidad> answer2 = new ArrayList<>();
-	
-	public AllProductosMDB(TopicConnectionFactory factory, InitialContext ctx) throws JMSException, NamingException 
-	{	
+	public List<Utilidad> answer= new ArrayList<>();
+
+	public UtilidadMDB(TopicConnectionFactory factory, InitialContext ctx) throws JMSException, NamingException
+	{
 		topicConnection = factory.createTopicConnection();
 		topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
 		globalTopic = (RMQDestination) ctx.lookup(GLOBAL_TOPIC_NAME);
 		TopicSubscriber topicSubscriber =  topicSession.createSubscriber(globalTopic);
 		topicSubscriber.setMessageListener(this);
-		localTopic = (RMQDestination) ctx.lookup(LOCAL_TOPIC_NAME);
-		topicSubscriber =  topicSession.createSubscriber(localTopic);
+		topic = (RMQDestination) ctx.lookup(TOPIC_NAME);
+		topicSubscriber =  topicSession.createSubscriber(topic);
 		topicSubscriber.setMessageListener(this);
 		topicConnection.setExceptionListener(this);
 	}
-	
+
 	public void start() throws JMSException
 	{
 		topicConnection.start();
@@ -91,15 +77,16 @@ public class AllProductosMDB implements MessageListener, ExceptionListener
 		topicConnection.close();
 	}
 	
-	public ListaProductos  getRemoteVideos() throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	public ListaUtilidad getRemoteUtilidad(String restaurante, String fechaI,String fechaF) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
 	{
 		answer.clear();
 		String id = APP+""+System.currentTimeMillis();
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		id = DatatypeConverter.printHexBinary(md.digest(id.getBytes())).substring(0, 8);
-//		id = new String(md.digest(id.getBytes()));
+		//id = new String(md.digest(id.getBytes()));
 		
-		sendMessage("", REQUEST, globalTopic, id);
+		sendMessage(restaurante+","+fechaI+","+fechaF, REQUEST, topic, id);
+		System.out.println("Mensaje Enviado");
 		boolean waiting = true;
 
 		int count = 0;
@@ -108,35 +95,24 @@ public class AllProductosMDB implements MessageListener, ExceptionListener
 			count++;
 		}
 		if(count == TIME_OUT){
-			if(this.answer.isEmpty()){
+			if(this.answer == null){
 				waiting = false;
 				throw new NonReplyException("Time Out - No Reply");
 			}
 		}
 		waiting = false;
-		
-		if(answer.isEmpty())
+		if(answer == null)
 			throw new NonReplyException("Non Response");
-		ListaProductos res = new ListaProductos(answer);
-        return res;
+		ListaUtilidad rest = new ListaUtilidad(answer);
+        return rest;
 	}
 	
-	
-	private void sendMessage(String payload, String status, Topic dest, String id) throws JMSException, JsonGenerationException, JsonMappingException, IOException
+	@Override
+	public void onException(JMSException exception) 
 	{
-		ObjectMapper mapper = new ObjectMapper();
-		System.out.println(id);
-		ExchangeMsg msg = new ExchangeMsg("videos.general.app1", APP, payload, status, id);
-		TopicPublisher topicPublisher = topicSession.createPublisher(dest);
-		topicPublisher.setDeliveryMode(DeliveryMode.PERSISTENT);
-		TextMessage txtMsg = topicSession.createTextMessage();
-		txtMsg.setJMSType("TextMessage");
-		String envelope = mapper.writeValueAsString(msg);
-		System.out.println(envelope);
-		txtMsg.setText(envelope);
-		topicPublisher.publish(txtMsg);
+		System.out.println(exception);		
 	}
-	
+
 	@Override
 	public void onMessage(Message message) 
 	{
@@ -150,27 +126,9 @@ public class AllProductosMDB implements MessageListener, ExceptionListener
 			String id = ex.getMsgId();
 			System.out.println(ex.getSender());
 			System.out.println(ex.getStatus());
-			if(!ex.getSender().equals(APP) && ex.getPayload().length() <= 0)
+			if(!ex.getSender().equals(APP))
 			{
-				System.out.println("--------------------------------------------------2324324Llego un mensaje----------------------------");
-				if(ex.getStatus().equals(REQUEST))
-				{
-					System.out.println("Estoy enviendo el mensaje ----------------------------");
-					RotondAndesDistributed dtm = RotondAndesDistributed.getInstance();
-					ListaProductos videos = dtm.getLocalVideos();
-					String payload = mapper.writeValueAsString(videos);
-					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), "", false);
-					sendMessage(payload, REQUEST_ANSWER, t, id);
-					System.out.println("MENSAJE ENVIADO -----------------------------------------");
-				}
-				else if(ex.getStatus().equals(REQUEST_ANSWER))
-				{
-					System.out.println("RESPUESTAAA----------------------------------------------");
-					ListaProductos v = mapper.readValue(ex.getPayload(), ListaProductos.class);
-					answer.addAll(v.getProductos());
-				}
-			}else{
-				System.out.println("Holaaaaaaa--------------------------------------------");
+				
 				String[] metodo = ex.getPayload().split(",");
 				if(ex.getStatus().equals(REQUEST))
 				{
@@ -183,7 +141,7 @@ public class AllProductosMDB implements MessageListener, ExceptionListener
 				else if(ex.getStatus().equals(REQUEST_ANSWER))
 				{
 					Utilidad v = mapper.readValue(ex.getPayload(), Utilidad.class);
-					answer2.add(v);
+					answer.add(v);
 				}
 			}
 			
@@ -205,11 +163,22 @@ public class AllProductosMDB implements MessageListener, ExceptionListener
 		}
 		
 	}
-
-	@Override
-	public void onException(JMSException exception) 
+	
+	private void sendMessage(String payload, String status, Topic dest, String id) throws JMSException, JsonGenerationException, JsonMappingException, IOException
 	{
-		System.out.println(exception);
+		ObjectMapper mapper = new ObjectMapper();		
+		System.out.println(id);
+		ExchangeMsg msg = new ExchangeMsg("videos.terror.app1", APP, payload, status, id);
+		TopicPublisher topicPublisher = topicSession.createPublisher(dest);
+		topicPublisher.setDeliveryMode(DeliveryMode.PERSISTENT);
+		TextMessage txtMsg = topicSession.createTextMessage();
+		txtMsg.setJMSType("TextMessage");
+		String envelope = mapper.writeValueAsString(msg);
+		System.out.println(envelope);
+		txtMsg.setText(envelope);
+		topicPublisher.publish(txtMsg);
 	}
-
+	
+	
+	
 }

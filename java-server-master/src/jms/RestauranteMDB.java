@@ -48,7 +48,7 @@ import vos.Utilidad;
 
 
 
-public class AllProductosMDB implements MessageListener, ExceptionListener 
+public class RestauranteMDB implements MessageListener, ExceptionListener 
 {
 	public final static int TIME_OUT = 50;
 	private final static String APP = "app1";
@@ -67,7 +67,8 @@ public class AllProductosMDB implements MessageListener, ExceptionListener
 	private List<ProductoIter5> answer = new ArrayList<ProductoIter5>();
 	private List<Utilidad> answer2 = new ArrayList<>();
 	
-	public AllProductosMDB(TopicConnectionFactory factory, InitialContext ctx) throws JMSException, NamingException 
+	
+	public RestauranteMDB(TopicConnectionFactory factory, InitialContext ctx) throws JMSException, NamingException 
 	{	
 		topicConnection = factory.createTopicConnection();
 		topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -91,7 +92,7 @@ public class AllProductosMDB implements MessageListener, ExceptionListener
 		topicConnection.close();
 	}
 	
-	public ListaProductos  getRemoteVideos() throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	public ListaProductos  getRemoteDelete(String nombre) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
 	{
 		answer.clear();
 		String id = APP+""+System.currentTimeMillis();
@@ -152,7 +153,7 @@ public class AllProductosMDB implements MessageListener, ExceptionListener
 			System.out.println(ex.getStatus());
 			if(!ex.getSender().equals(APP) && ex.getPayload().length() <= 0)
 			{
-				System.out.println("--------------------------------------------------2324324Llego un mensaje----------------------------");
+				System.out.println("------------------------------------------------ssssasdfasffasf--Llego un mensaje----------------------------");
 				if(ex.getStatus().equals(REQUEST))
 				{
 					System.out.println("Estoy enviendo el mensaje ----------------------------");
@@ -213,3 +214,4 @@ public class AllProductosMDB implements MessageListener, ExceptionListener
 	}
 
 }
+

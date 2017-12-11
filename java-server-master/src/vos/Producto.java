@@ -6,6 +6,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Producto 
 {
+	@JsonProperty(value="id")
+	private int id;
 	@JsonProperty(value="nombre")
 	private String nombre;
 	@JsonProperty(value="disponible")
@@ -15,18 +17,25 @@ public class Producto
 	@JsonProperty(value="traduccion")
 	private String traduccion;
 	@JsonProperty(value="tiempoPreparacion")
-	private Float tiempoPreparacion;
-	@JsonProperty(value="costoProduccion")
-	private Float costoProduccion;
-	@JsonProperty(value="precioVenta")
-	private Float precioVenta;
+	private int tiempoPreparacion;
+	@JsonProperty(value="costo")
+	private int costoProduccion;
+	@JsonProperty(value="precio")
+	private int precioVenta;
 	@JsonProperty(value="categoria")
 	private String categoria;
 	@JsonProperty(value="tipo")
 	private List<String> tipo;
 	@JsonProperty(value="maximo")
 	private Integer maximo;
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	public Integer getMaximo() {
 		return maximo;
@@ -44,27 +53,27 @@ public class Producto
 		this.disponible = disponible;
 	}
 
-	public Float getTiempoPreparacion() {
+	public int getTiempoPreparacion() {
 		return tiempoPreparacion;
 	}
 
-	public void setTiempoPreparacion(Float tiempoPreparacion) {
+	public void setTiempoPreparacion(int tiempoPreparacion) {
 		this.tiempoPreparacion = tiempoPreparacion;
 	}
 
-	public Float getCostoProduccion() {
+	public int getCostoProduccion() {
 		return costoProduccion;
 	}
 
-	public void setCostoProduccion(Float costoProduccion) {
+	public void setCostoProduccion(int costoProduccion) {
 		this.costoProduccion = costoProduccion;
 	}
 
-	public Float getPrecioVenta() {
+	public int getPrecioVenta() {
 		return precioVenta;
 	}
 
-	public void setPrecioVenta(Float precioVenta) {
+	public void setPrecioVenta(int precioVenta) {
 		this.precioVenta = precioVenta;
 	}
 
@@ -80,9 +89,9 @@ public class Producto
 					@JsonProperty(value="disponible")Integer disponible,
 					@JsonProperty(value="descripcion")String descripcion,
 					@JsonProperty(value="traduccion")String traduccion,
-					@JsonProperty(value="tiempoPreparacion")Float tiempoPreparacion,
-					@JsonProperty(value="costoProduccion")Float costoProduccion,
-					@JsonProperty(value="precioVenta")Float precioVenta,
+					@JsonProperty(value="tiempoPreparacion")int tiempoPreparacion,
+					@JsonProperty(value="costo")int costoProduccion,
+					@JsonProperty(value="precio")int precioVenta,
 					@JsonProperty(value="categoria")String categoria,
 					@JsonProperty(value="maximo")Integer maximo)
 	{

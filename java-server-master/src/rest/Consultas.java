@@ -109,5 +109,21 @@ public class Consultas {
 		}
 		return Response.status(200).entity(clientes).build();
 	}
+	
+	@GET
+	@Path( "utilidad/query" )
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getUtilidad( @QueryParam( "nombre" ) String nombre , @QueryParam( "f1" ) String fecha,
+			@QueryParam( "f2" ) String fecha2 ) throws Exception {
+		RotondAndesTm tm = new RotondAndesTm(getPath());
+		ListaUtilidad rta;
+			try {
+				rta = tm.darUtilidadRemote(nombre, fecha, fecha2);
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+
+		return Response.status(200).entity(rta).build();
+	}
 
 }

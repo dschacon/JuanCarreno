@@ -157,16 +157,16 @@ public class RestauranteServices {
      * @return Json con el restaurante que elimino o Json con el error que se produjo
      */
 	@DELETE
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("{nombre}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteRestaurante(Restaurante restaurante) {
+	public Response deleteRestaurante(@PathParam( "nombre" ) String nombre) {
 		RotondAndesTm tm = new RotondAndesTm(getPath());
 		try {
-			tm.deleteRestaurante(restaurante);
+			tm.deleteRestauranteRemote(nombre);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(restaurante).build();
+		return Response.status(200).entity(nombre).build();
 	}
 
 

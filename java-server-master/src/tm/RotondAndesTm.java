@@ -1,9 +1,13 @@
 package tm;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
 import dao.*;
+import dtm.RotondAndesDistributed;
+import jms.NonReplyException;
 import vos.*;
 
 import java.io.File;
@@ -49,6 +53,8 @@ public class RotondAndesTm {
 	 */
 	private Connection conn;
 
+	private RotondAndesDistributed dtm;
+	
 	/**
 	 * Metodo constructor de la clase VideoAndesMaster, esta clase modela y contiene cada una de las 
 	 * transacciones y la logica de negocios que estas conllevan.
@@ -59,6 +65,7 @@ public class RotondAndesTm {
 	public RotondAndesTm( String pathp) {
 		connectionDataPath = pathp + CONNECTION_DATA_FILE_NAME_REMOTE;
 		initConnectionData();
+		dtm=RotondAndesDistributed.getInstance(this);
 	}
 
 	/**
@@ -333,7 +340,7 @@ public class RotondAndesTm {
 		}
 	}
 
-	public void deleteRestaurante(Restaurante restaurante) throws Exception {
+	public void deleteRestaurante(String restaurante) throws Exception {
 		DAOTablaRestaurantes daoRestaurantes = new DAOTablaRestaurantes();
 		try 
 		{
@@ -1766,14 +1773,20 @@ public class RotondAndesTm {
 		return consultas;
 	}
 
-	public List<Producto> darProductos() throws Exception {
-		List<Producto> productos;
+	public ListaProductos darProductosLocales() throws Exception {
+		List<ProductoIter5> productos= new ArrayList<>();
+		ArrayList<Producto> productosLocales;
 		DAOTablaProductos daoProductos = new DAOTablaProductos();
 		try 
 		{
 			this.conn = darConexion();
 			daoProductos.setConn(conn);
-			 productos = daoProductos.darProductos();
+			productosLocales = daoProductos.darProductos();
+			Iterator<Producto> iter = productosLocales.iterator();
+			while(iter.hasNext()){
+				Producto l = iter.next();
+				productos.add(new ProductoIter5("Rotonda 1",l.getNombre(),0, l.getPrecioVenta(), l.getCostoProduccion(), null ,l.getTiempoPreparacion(),null, l.getDescripcion(), l.getDisponible().intValue(),null, l.getMaximo().intValue()));
+			}
 
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -1794,7 +1807,84 @@ public class RotondAndesTm {
 				throw exception;
 			}
 		}
-		return productos;
+		return new ListaProductos(productos);
+	}
+	
+	public ListaProductos darProductos() throws Exception {
+		ListaProductos remL = darProductosLocales();
+		try
+		{
+			ListaProductos resp = dtm.getRemoteVideos();
+			System.out.println(resp.getProductos().size());
+			remL.getProductos().addAll(resp.getProductos());
+		}
+		catch(NonReplyException e)
+		{
+			System.out.println("ALGO PASO ");
+			
+		}
+		return remL;
+	}
+	
+	public ListaUtilidad utilidad(String nombre , String fecha,String fecha2) throws Exception {
+		ListaUtilidad consultas;
+		DAOConsultas daoConsultas = new DAOConsultas();
+		try 
+		{
+			this.conn = darConexion();
+			daoConsultas.setConn(conn);
+			consultas = new ListaUtilidad(daoConsultas.darUtilidad(nombre , fecha, fecha2));
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoConsultas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return consultas;
+	}
+	
+	public ListaUtilidad darUtilidadRemote(String nombre, String fechaI, String fechaF) throws Exception {
+		
+			ListaUtilidad remL = utilidad(nombre, fechaI, fechaF);
+
+			try
+			{
+				ListaUtilidad resp = dtm.getRemoteUtilidad(nombre, fechaI, fechaF);
+				remL.getUtilidades().addAll(resp.getUtilidades());
+			}
+			catch(NonReplyException e)
+			{
+				e.printStackTrace();
+			}
+			return remL;
+		}
+	
+	public void deleteRestauranteRemote(String nombre) throws Exception {
+		
+		deleteRestauranteRemote(nombre);
+
+		try
+		{
+			dtm.getRemoteDelete(nombre);
+		}
+		catch(NonReplyException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
 

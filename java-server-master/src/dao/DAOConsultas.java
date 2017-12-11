@@ -331,4 +331,42 @@ public class DAOConsultas {
 		return consultas;
 	}
 
+	public List<Utilidad> darUtilidad(String nombre, String fecha, String fecha2) throws SQLException {
+		List<Utilidad> rta= new ArrayList<>(); 
+		Utilidad consultas = null ;
+		fecha2 = fecha2.replace('-','/');
+		fecha = fecha.replace('-','/');
+		String sql = "SELECT RESTAURANTE_PRODUCTO.NOMBRE_PRODUCTO , NUMERO , (COSTO_PRODUCCION - PRECIO_VENTA)AS UTILIDAD  FROM("
+					+ "SELECT NOMBRE_PRODUCTO , COUNT(*) AS NUMERO " 
+					+"FROM PEDIDOS2 JOIN PEDIDO_PRODUCTO ON PEDIDOS2.PEDIDO_ID = PEDIDO_PRODUCTO.ID_PEDIDO "
+					+"WHERE NOMBRE_RESTAURANTE='"+nombre+"' AND PEDIDOS2.FECHA BETWEEN '"+ fecha +"' AND '"+fecha2+"' GROUP BY NOMBRE_PRODUCTO)TA "
+					+"JOIN RESTAURANTE_PRODUCTO ON RESTAURANTE_PRODUCTO.NOMBRE_PRODUCTO = TA.NOMBRE_PRODUCTO " ;
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		System.out.println(sql);
+		ResultSet rs = prepStmt.executeQuery();
+		List<String> productos = new ArrayList<>();
+		while (rs.next() ) {
+			String l = "Nombre producto: "+rs.getString("NOMBRE_PRODUCTO")+"VENDIDOS :"+rs.getString("NUMERO")+"UTILIDAD:"+rs.getString("UTILIDAD") ;
+			productos.add(l);
+		}
+		sql="SELECT SUM (UTILIDAD)AS UTILIDAD FROM ("+
+			"SELECT RESTAURANTE_PRODUCTO.NOMBRE_PRODUCTO , NUMERO , (COSTO_PRODUCCION - PRECIO_VENTA)AS UTILIDAD FROM( "+
+			"SELECT NOMBRE_PRODUCTO , COUNT(*) AS NUMERO "+
+			"FROM PEDIDOS2 JOIN PEDIDO_PRODUCTO ON PEDIDOS2.PEDIDO_ID = PEDIDO_PRODUCTO.ID_PEDIDO "+
+			"WHERE NOMBRE_RESTAURANTE='"+nombre+"' AND PEDIDOS2.FECHA BETWEEN '"+fecha+"' AND '"+fecha2+"' GROUP BY NOMBRE_PRODUCTO)TA "+
+			"JOIN RESTAURANTE_PRODUCTO ON RESTAURANTE_PRODUCTO.NOMBRE_PRODUCTO = TA.NOMBRE_PRODUCTO)";
+		prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+		Integer utilidad= 141036;
+		while (rs.next() ) {
+			utilidad = rs.getInt("UTILIDAD");
+		}
+		consultas = new Utilidad(nombre, productos, utilidad.doubleValue());
+		rta.add(consultas);
+		return rta;
+	}
+
 }

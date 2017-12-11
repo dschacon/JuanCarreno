@@ -162,10 +162,10 @@ public class DAOTablaRestaurantes {
 	 * @throws SQLException - Cualquier error que la base de datos arroje. No pudo actualizar el restaurante.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public void deleteRestaurante(Restaurante restaurante) throws SQLException, Exception {
+	public void deleteRestaurante(String restaurante) throws SQLException, Exception {
 
 		String sql = "DELETE FROM RESTAURANTE";
-		sql += " WHERE NOMBRE = '" + restaurante.getNombre() + "'";
+		sql += " WHERE NOMBRE = '" + restaurante + "'";
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);

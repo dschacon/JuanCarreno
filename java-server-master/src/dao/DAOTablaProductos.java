@@ -68,20 +68,30 @@ public class DAOTablaProductos {
 	public ArrayList<Producto> darProductos() throws SQLException, Exception {
 		ArrayList<Producto> productos = new ArrayList<Producto>();
 
-		String sql = "SELECT * FROM PRODUCTOS2";
+		String sql = "SELECT * FROM PRODUCTOS2 join RESTAURANTE_PRODUCTO ON NOMBRE=RESTAURANTE_PRODUCTO.NOMBRE_PRODUCTO";
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 
+		int cont = 0;
 		boolean algo = true;
 		while (rs.next() && algo) {
 			String name = rs.getString("NOMBRE");
 			String descripcion = rs.getString("DESCRIPCION");
 			String traduccion = rs.getString("TRADUCCION");
-			String categoria = rs.getString("CATEGORIA");		
-			productos.add(new Producto(name, null, descripcion, traduccion, null, null, null, categoria,null));
+			String categoria = rs.getString("CATEGORIA");
+			int disponibles = rs.getInt("DISPONIBLES");
+			int tiempo = rs.getInt("TIEMPO_PREPARACION");
+			int costo = rs.getInt("COSTO_PRODUCCION");
+			int precio = rs.getInt("PRECIO_VENTA");
+			int maximo = rs.getInt("MAXIMO");
+			
+			productos.add(new Producto(name, disponibles, descripcion, traduccion, tiempo, costo, precio, categoria,maximo));
+			if (cont==5){
 			algo = false;
+			}
+			cont++;
 		}
 		return productos;
 	}
@@ -128,9 +138,9 @@ public class DAOTablaProductos {
 			String categoria = rs.getString("CATEGORIA");
 			Integer disponible = rs.getInt("DISPONIBLES");
 			Integer maximo = rs.getInt("MAXIMO");
-			Float costoProduccion=rs.getFloat("COSTO_PRODUCCION");
-			Float precioVenta=rs.getFloat("PRECIO_VENTA");
-			Float tiempo=rs.getFloat("TIEMPO_PREPARACION");
+			int costoProduccion=rs.getInt("COSTO_PRODUCCION");
+			int precioVenta=rs.getInt("PRECIO_VENTA");
+			int tiempo=rs.getInt("TIEMPO_PREPARACION");
 			productos = new Producto(nombre, disponible , descripcion, traduccion, tiempo , costoProduccion, precioVenta, categoria,maximo);
 		}
 

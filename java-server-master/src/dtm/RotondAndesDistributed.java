@@ -25,13 +25,14 @@ import com.rabbitmq.jms.admin.RMQDestination;
 
 import jms.AllProductosMDB;
 import jms.NonReplyException;
+import jms.RestauranteMDB;
+import jms.UtilidadMDB;
 import tm.RotondAndesTm;
+import vos.ListaProductos;
+import vos.ListaUtilidad;
 import vos.Producto;
+import vos.Utilidad;
 
-//import jms.AllVideosMDB;
-//import jms.NonReplyException;
-//import tm.VideoAndesMaster;
-//import vos.ListaVideos;
 
 public class RotondAndesDistributed 
 {
@@ -48,6 +49,10 @@ public class RotondAndesDistributed
 	
 	private AllProductosMDB allProdMQ;
 	
+	private UtilidadMDB utilidadMQ ;
+	
+	private RestauranteMDB restauranteMQ ;
+	
 	private static String path;
 
 
@@ -56,13 +61,18 @@ public class RotondAndesDistributed
 		InitialContext ctx = new InitialContext();
 		factory = (RMQConnectionFactory) ctx.lookup(MQ_CONNECTION_NAME);
 		allProdMQ = new AllProductosMDB(factory, ctx);
-		
+		utilidadMQ = new UtilidadMDB(factory, ctx);
+		restauranteMQ= new RestauranteMDB(factory,ctx);
+		restauranteMQ.start();
 		allProdMQ.start();
+		utilidadMQ.start();
 		
 	}
 	
 	public void stop() throws JMSException
 	{
+		restauranteMQ.close();
+		utilidadMQ.close();
 		allProdMQ.close();
 	}
 	
@@ -116,13 +126,33 @@ public class RotondAndesDistributed
 		return getInstance(tm);
 	}
 	
-	public List<Producto> getLocalVideos() throws Exception
+	public ListaProductos getLocalVideos() throws Exception
 	{
-		return tm.darProductos();
+		return tm.darProductosLocales();
 	}
 	
-	public List<Producto> getRemoteVideos() throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	public ListaProductos getRemoteVideos() throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
 	{
 		return allProdMQ.getRemoteVideos();
+	}
+	
+	public ListaUtilidad getLocaUtilidad(String nombre,String fecha ,String fecha2 ) throws Exception
+	{
+		return tm.utilidad(nombre, fecha, fecha2);
+	}
+	
+	public ListaUtilidad getRemoteUtilidad(String nombre,String fecha ,String fecha2) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	{
+		return utilidadMQ.getRemoteUtilidad(nombre, fecha, fecha2);
+	}
+	
+	public void getLocalDelete(String nombre) throws Exception
+	{
+		tm.deleteRestaurante(nombre);
+	}
+	
+	public void getRemoteDelete(String nombre) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	{
+		restauranteMQ.getRemoteDelete(nombre);
 	}
 }
